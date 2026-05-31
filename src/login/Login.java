@@ -2,6 +2,7 @@ package login;
 
 import java.awt.EventQueue;
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -16,14 +17,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
+import javax.swing.JOptionPane; //manejo de ventanas emergentes
+
+
+//imports para el manejo de archivos
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Login extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JPasswordField passwordField;
-	private JPasswordField passwordField_1;
+	private JTextField txtUser;
+	private JPasswordField txtPass;
+	private JTextField txtEmail;
 
 	/**
 	 * Launch the application.
@@ -101,10 +109,10 @@ public class Login extends JFrame {
 		lblNewLabel_4_1_1.setBounds(0, 409, 232, 12);
 		panel.add(lblNewLabel_4_1_1);
 		
-		textField = new JTextField();
-		textField.setBounds(301, 83, 233, 29);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		txtUser = new JTextField();
+		txtUser.setBounds(301, 83, 233, 29);
+		contentPane.add(txtUser);
+		txtUser.setColumns(10);
 		
 		JLabel lblNewLabel = new JLabel("USERNAME");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -120,9 +128,9 @@ public class Login extends JFrame {
 		lblPassword.setBounds(301, 172, 68, 12);
 		contentPane.add(lblPassword);
 		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(301, 194, 233, 29);
-		contentPane.add(passwordField);
+		txtPass = new JPasswordField();
+		txtPass.setBounds(301, 194, 233, 29);
+		contentPane.add(txtPass);
 		
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(301, 259, 233, 2);
@@ -133,19 +141,87 @@ public class Login extends JFrame {
 		lblEmail.setBounds(301, 286, 68, 12);
 		contentPane.add(lblEmail);
 		
-		passwordField_1 = new JPasswordField();
-		passwordField_1.setBounds(301, 308, 233, 29);
-		contentPane.add(passwordField_1);
+		JButton btnEntrar = new JButton("SignUP");
+		btnEntrar.setForeground(Color.WHITE);
 		
-		JButton btnNewButton = new JButton("SignUP");
-		btnNewButton.setForeground(Color.WHITE);
-		btnNewButton.addActionListener(new ActionListener() {
+		btnEntrar.setBackground(new Color(120, 23, 5));
+		btnEntrar.setBounds(353, 382, 127, 20);
+		contentPane.add(btnEntrar);
+		
+		txtEmail = new JTextField();
+		txtEmail.setBounds(301, 308, 233, 29);
+		contentPane.add(txtEmail);
+		txtEmail.setColumns(10);
+		
+		
+		
+		
+		
+		
+		
+		//funciones
+		
+		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				//recopilar datos
+				String usuarioUser = txtUser.getText();
+				String usuarioPassword = new String(txtPass.getPassword());
+				String usuarioEmail = txtEmail.getText();
+				
+				//validacion campos vacíos
+				if(usuarioUser.isEmpty() || usuarioPassword.isEmpty() || usuarioEmail.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Por favor, llene todos los campos", "Campos vacíos", JOptionPane.WARNING_MESSAGE);
+					return;
+				}
+				
+				//ruta archivo.txt
+				String rutaArchivo = "usuarios.txt";
+				boolean accesoConfirm = false;
+				String linea;
+				
+				try (BufferedReader br=new BufferedReader(new FileReader(rutaArchivo))){
+					while((linea=br.readLine()) != null ) {
+						
+						
+						if (linea.trim().isEmpty()) continue;
+						
+						String[] datos = linea.split(",");
+						
+						
+						
+						
+						
+						if(datos.length == 3) {
+							String userTxt = datos[0].trim();
+							String passTxt = datos[1].trim();
+							String emailTxt = datos[2].trim();
+							if(userTxt.equals(usuarioUser) && passTxt.equals(usuarioPassword) && emailTxt.equals(usuarioEmail)) {
+								accesoConfirm=true;
+								break;
+							}
+						}
+						
+						
+					}
+					
+				}catch(IOException ex) {
+					JOptionPane.showMessageDialog(null, "Error al abrir el archivo de usuarios: " + ex.getMessage());
+				}
+				
+				if(accesoConfirm) {
+					JOptionPane.showMessageDialog(null, "Bienvenido");
+				}else {
+					JOptionPane.showMessageDialog(null, "Usuario, contraseña o correo incorrectos.");
+				}
+				
+				
+				
+				
+				
+				
 			}
 		});
-		btnNewButton.setBackground(new Color(120, 23, 5));
-		btnNewButton.setBounds(353, 382, 127, 20);
-		contentPane.add(btnNewButton);
 
 	}
 }
