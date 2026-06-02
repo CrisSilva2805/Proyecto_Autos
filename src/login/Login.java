@@ -3,6 +3,7 @@ package login;
 import java.awt.EventQueue;
 
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -18,6 +19,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JOptionPane; //manejo de ventanas emergentes
+import ventas.VentanaVentas;
 
 
 //imports para el manejo de archivos
@@ -211,6 +213,8 @@ public class Login extends JFrame {
 				
 				if(accesoConfirm) {
 					JOptionPane.showMessageDialog(null, "Bienvenido");
+					VentanaVentas ventas = new VentanaVentas();
+					ventas.setVisible(true);
 				}else {
 					JOptionPane.showMessageDialog(null, "Usuario, contraseña o correo incorrectos.");
 				}
