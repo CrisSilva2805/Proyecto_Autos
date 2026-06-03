@@ -1,6 +1,7 @@
-package login;
+   package login;
 
 import java.awt.EventQueue;
+
 
 
 
@@ -26,7 +27,7 @@ import ventas.VentanaVentas;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
+import ventas.VentanaVentas;
 public class Login extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -201,6 +202,10 @@ public class Login extends JFrame {
 							if(userTxt.equals(usuarioUser) && passTxt.equals(usuarioPassword) && emailTxt.equals(usuarioEmail)) {
 								accesoConfirm=true;
 								break;
+							}
+							if(accesoConfirm) {
+								VentanaVentas ventana = new VentanaVentas();
+								ventana.setVisible(true);
 							}
 						}
 						
