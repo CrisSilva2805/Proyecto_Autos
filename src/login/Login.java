@@ -27,7 +27,6 @@ import ventas.VentanaVentas;// Para relacionar el login con la ventana principal
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import ventas.VentanaVentas;
 public class Login extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -203,10 +202,7 @@ public class Login extends JFrame {
 								accesoConfirm=true;
 								break;
 							}
-							if(accesoConfirm) {// se abre la ventana principal
-								VentanaVentas ventana = new VentanaVentas();
-								ventana.setVisible(true);
-							}
+							
 						}
 						
 						
