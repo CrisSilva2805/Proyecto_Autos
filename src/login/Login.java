@@ -20,7 +20,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JOptionPane; //manejo de ventanas emergentes
-import ventas.VentanaVentas;
+import ventas.VentanaVentas;// Para relacionar el login con la ventana principal
 
 
 //imports para el manejo de archivos
@@ -203,7 +203,7 @@ public class Login extends JFrame {
 								accesoConfirm=true;
 								break;
 							}
-							if(accesoConfirm) {
+							if(accesoConfirm) {// se abre la ventana principal
 								VentanaVentas ventana = new VentanaVentas();
 								ventana.setVisible(true);
 							}
