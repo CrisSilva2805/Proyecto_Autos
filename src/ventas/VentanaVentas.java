@@ -68,23 +68,23 @@ public class VentanaVentas extends JFrame {
 		
 		
 		
-		JLabel PROVEEDORES = new JLabel("SUPPLIERS");
-		PROVEEDORES.setHorizontalAlignment(SwingConstants.CENTER);
-		PROVEEDORES.setForeground(Color.WHITE);
-		PROVEEDORES.setFont(new Font("Agency FB", Font.PLAIN, 20));
-		PROVEEDORES.setBounds(200, 0, 100, 58);
-		panel.add(PROVEEDORES);
-		PROVEEDORES.addMouseListener(new MouseAdapter() {
+		JLabel CONSULTAS = new JLabel("CONSULTAS");
+		CONSULTAS.setHorizontalAlignment(SwingConstants.CENTER);
+		CONSULTAS.setForeground(Color.WHITE);
+		CONSULTAS.setFont(new Font("Agency FB", Font.PLAIN, 20));
+		CONSULTAS.setBounds(200, 0, 100, 58);
+		panel.add(CONSULTAS);
+		CONSULTAS.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				PROVEEDORES.setOpaque(true);
-				PROVEEDORES.setBackground(new Color(158, 23, 20));
+				CONSULTAS.setOpaque(true);
+				CONSULTAS.setBackground(new Color(158, 23, 20));
 			}
 			
 			@Override
 		    public void mouseExited(MouseEvent e) {
 		        // Al salir, vuelve a poner el fondo del mismo color que el panel (o hazlo transparente de nuevo)
-				PROVEEDORES.setBackground(panel.getBackground()); 
+				CONSULTAS.setBackground(panel.getBackground()); 
 		        // Si prefieres que vuelva a ser transparente por completo: HOME.setOpaque(false);
 		    }
 		});
