@@ -10,11 +10,18 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+//manejo de archivos
+import java.io.*;
+import java.util.ArrayList;
+import data.coche;
+
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -32,18 +39,21 @@ public class Stock extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
+	private JTextField txtId;
+	private JTextField txtMarca;
+	private JTextField txtModelo;
+	private JTextField txtAnio;
+	private JTextField txtPrecio;
+	private JTextField txtColor;
 	private JTextField txtBuscarPorModelomarca;
 	
 	// Componentes agregados para la tabla
 	private JTable tablaStock;
 	private DefaultTableModel modeloTabla;
-	private JTextField textField_6;
+	private JTextField txtCantidad;
+	
+	//RUTA ARCHIVO BINARIO
+	private final String ARCHIVO_DAT = "stock.dat";
 
 	/**
 	 * Launch the application.
@@ -180,94 +190,96 @@ public class Stock extends JFrame {
 		ID.setBounds(10, 91, 56, 24);
 		panel_1.add(ID);
 		
-		textField = new JTextField();
-		textField.setBounds(76, 97, 96, 18);
-		panel_1.add(textField);
-		textField.setColumns(10);
+		txtId = new JTextField();
+		txtId.setBounds(76, 97, 96, 18);
+		panel_1.add(txtId);
+		txtId.setColumns(10);
 		
 		JLabel MARCA = new JLabel("Marca:");
 		MARCA.setFont(new Font("Agency FB", Font.BOLD, 17));
 		MARCA.setBounds(10, 126, 56, 24);
 		panel_1.add(MARCA);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(76, 132, 194, 18);
-		panel_1.add(textField_1);
-		textField_1.setColumns(10);
+		txtMarca = new JTextField();
+		txtMarca.setBounds(76, 132, 194, 18);
+		panel_1.add(txtMarca);
+		txtMarca.setColumns(10);
 		
 		JLabel MODELO = new JLabel("Modelo:");
 		MODELO.setFont(new Font("Agency FB", Font.BOLD, 17));
 		MODELO.setBounds(10, 160, 56, 24);
 		panel_1.add(MODELO);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(76, 166, 194, 18);
-		panel_1.add(textField_2);
+		txtModelo = new JTextField();
+		txtModelo.setColumns(10);
+		txtModelo.setBounds(76, 166, 194, 18);
+		panel_1.add(txtModelo);
 		
 		JLabel ANIO = new JLabel("Año:");
 		ANIO.setFont(new Font("Agency FB", Font.BOLD, 17));
 		ANIO.setBounds(10, 194, 56, 24);
 		panel_1.add(ANIO);
 		
-		textField_3 = new JTextField();
-		textField_3.setBounds(76, 200, 65, 18);
-		panel_1.add(textField_3);
-		textField_3.setColumns(10);
+		txtAnio = new JTextField();
+		txtAnio.setBounds(76, 200, 65, 18);
+		panel_1.add(txtAnio);
+		txtAnio.setColumns(10);
 		
 		JLabel PRECIO = new JLabel("Precio:");
 		PRECIO.setFont(new Font("Agency FB", Font.BOLD, 17));
 		PRECIO.setBounds(10, 228, 56, 24);
 		panel_1.add(PRECIO);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(76, 234, 65, 18);
-		panel_1.add(textField_4);
+		txtPrecio = new JTextField();
+		txtPrecio.setColumns(10);
+		txtPrecio.setBounds(76, 234, 65, 18);
+		panel_1.add(txtPrecio);
 		
 		JLabel COLOR = new JLabel("Color:");
 		COLOR.setFont(new Font("Agency FB", Font.BOLD, 17));
 		COLOR.setBounds(10, 262, 56, 24);
 		panel_1.add(COLOR);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(76, 264, 65, 18);
-		panel_1.add(textField_5);
+		txtColor = new JTextField();
+		txtColor.setColumns(10);
+		txtColor.setBounds(76, 264, 65, 18);
+		panel_1.add(txtColor);
 		
-		JButton btnNewButton = new JButton("Registrar Auto");
-		
-		
+		JButton REGISTRAR = new JButton("Registrar Auto");
 		
 		
-		btnNewButton.setIcon(new ImageIcon(Stock.class.getResource("/com/images/logoMas.jpg")));
-		btnNewButton.setForeground(new Color(255, 255, 255));
-		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnNewButton.setBackground(new Color(159, 7, 18));
-		btnNewButton.setBounds(10, 337, 149, 20);
-		panel_1.add(btnNewButton);
 		
-		JButton btnActualizar = new JButton("Actualizar");
-		btnActualizar.setForeground(Color.WHITE);
-		btnActualizar.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnActualizar.setBackground(new Color(0, 0, 0));
-		btnActualizar.setBounds(10, 367, 149, 20);
-		panel_1.add(btnActualizar);
 		
-		JButton btnNewButton_1 = new JButton("Limpiar Campos");
-		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnNewButton_1.setBounds(165, 368, 132, 20);
-		panel_1.add(btnNewButton_1);
+		REGISTRAR.setIcon(new ImageIcon(Stock.class.getResource("/com/images/logoMas.jpg")));
+		REGISTRAR.setForeground(new Color(255, 255, 255));
+		REGISTRAR.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		REGISTRAR.setBackground(new Color(159, 7, 18));
+		REGISTRAR.setBounds(10, 337, 149, 20);
+		panel_1.add(REGISTRAR);
+		
+		JButton ACTUALIZAR = new JButton("Actualizar");
+		
+		ACTUALIZAR.setForeground(Color.WHITE);
+		ACTUALIZAR.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		ACTUALIZAR.setBackground(new Color(0, 0, 0));
+		ACTUALIZAR.setBounds(10, 367, 149, 20);
+		panel_1.add(ACTUALIZAR);
+		
+		JButton LIMPIAR = new JButton("Limpiar Campos");
+		
+		LIMPIAR.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		LIMPIAR.setBounds(165, 368, 132, 20);
+		panel_1.add(LIMPIAR);
 		
 		JLabel CANTIDAD = new JLabel("Cantidad:");
 		CANTIDAD.setFont(new Font("Agency FB", Font.BOLD, 17));
 		CANTIDAD.setBounds(10, 296, 56, 24);
 		panel_1.add(CANTIDAD);
 		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBounds(76, 298, 65, 18);
-		panel_1.add(textField_6);
+		txtCantidad = new JTextField();
+		txtCantidad.setColumns(10);
+		txtCantidad.setBounds(76, 298, 65, 18);
+		panel_1.add(txtCantidad);
 		
 		// --- PANEL DERECHO (CONSULTA) ---
 		JPanel panel_2 = new JPanel();
@@ -319,11 +331,34 @@ public class Stock extends JFrame {
 		panel_2.add(scrollPaneTabla);
 		
 		
+		cargarDatosDesdeArchivo(); 
+		
+		
+		
 		
 		//FUNCIONES
-		btnNewButton.addActionListener(new ActionListener() {
+		REGISTRAR.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				
+				registrarAutomovil();		
+				
+				
+			}
+		});
+		
+		
+		LIMPIAR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				limpiarCajasTexto();	
+				
+			}
+		});
+		
+		ACTUALIZAR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cargarDatosDesdeArchivo();
 			}
 		});
 		
@@ -377,6 +412,104 @@ public class Stock extends JFrame {
 		for (int i = 0; i < tabla.getColumnCount(); i++) {
 			tabla.getColumnModel().getColumn(i).setCellRenderer(cebraRenderer);
 		}
+	}
+	
+	private void registrarAutomovil() {
+		try {
+			if(txtId.getText().isEmpty()||txtMarca.getText().isEmpty()||txtModelo.getText().isEmpty()||txtAnio.getText().isEmpty()||txtPrecio.getText().isEmpty()||txtCantidad.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Por favor, llene todos los campos");
+				return;
+			}
+			
+			//Parsear datos
+			int id=Integer.parseInt(txtId.getText().trim());
+			String marca=txtMarca.getText().trim();
+			String modelo=txtModelo.getText().trim();
+			int anio=Integer.parseInt(txtAnio.getText().trim());
+			float precio=Float.parseFloat(txtPrecio.getText().trim());
+			String color= txtColor.getText().trim();
+			int cantidad=Integer.parseInt(txtCantidad.getText().trim());
+			
+			//instanciamos coche
+			coche nuevoCoche= new coche(id, marca, modelo, anio, color, precio, cantidad);
+			
+			//leer archivo
+			ArrayList<coche>listaCoches=leerCochesDelArchivo();
+			listaCoches.add(nuevoCoche);
+			
+			ObjectOutputStream oos= new ObjectOutputStream(new FileOutputStream(ARCHIVO_DAT));
+			oos.writeObject(listaCoches);
+			oos.close();
+			
+			JOptionPane.showMessageDialog(null, "Auto registrado con exito en el archivo" );
+			
+			//limpiar campos
+			limpiarCajasTexto();
+			cargarDatosDesdeArchivo();
+			
+			
+			
+		}catch(NumberFormatException ex) {
+			JOptionPane.showMessageDialog(null, "Asegurate de ingresar numeros validos en ID, Año, Precio y Cantidad");
+		}catch(IOException ex) {
+			ex.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error al escribir en el archivo binario");
+		}
+	}
+	
+	
+	
+	private void cargarDatosDesdeArchivo() {
+		modeloTabla.setRowCount(0);//borra el contenido de la tabla
+		
+		ArrayList<coche>lista=leerCochesDelArchivo();
+		
+		for(coche c:lista) {
+			modeloTabla.addRow(new Object[]{
+				c.getId(),
+				c.getMarca(),
+				c.getModelo(),
+				c.getAnio(),
+				c.getColor(),
+				"$"+String.format("%.2f", c.getPrecioBase()),
+				c.getCantidad()
+			});
+			
+		}
+				
+	}
+	
+	//Abre el archivo stock.dat y extrae el ArrayList de objetos tipo coche
+	
+	@SuppressWarnings("unchecked") 
+	private ArrayList<coche>leerCochesDelArchivo(){
+		ArrayList<coche>lista=new ArrayList<>();
+		File f= new File(ARCHIVO_DAT);
+		
+		if(!f.exists()) {
+			return lista;
+		}
+		
+		try(ObjectInputStream ois= new ObjectInputStream(new FileInputStream(f))){
+			lista=(ArrayList<coche>) ois.readObject();
+		}catch(Exception ex) {
+			
+		}
+		return lista;
+			
+	}
+	
+	
+	private void limpiarCajasTexto() {
+		txtId.setText("");
+		txtMarca.setText("");
+		txtModelo.setText("");
+		txtAnio.setText("");
+		txtColor.setText("");
+		txtPrecio.setText("");
+		txtCantidad.setText("");
+		txtId.requestFocus();
+		
 	}
 	
 	

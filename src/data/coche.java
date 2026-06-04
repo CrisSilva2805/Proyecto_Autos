@@ -1,6 +1,10 @@
 package data;
+import java.io.Serializable;
 
-public class coche {
+public class coche implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
 	private int id;
 	private String marca;
 	private String modelo;
@@ -8,6 +12,20 @@ public class coche {
 	private String transmision;
 	private String color;
 	private float precioBase;
+	private int cantidad;
+	
+	//crear constructor
+	public coche(int id, String marca, String modelo, int anio, String color, float precioBase, int cantidad) {
+		this.id = id;
+		this.marca = marca;
+		this.modelo = modelo;
+		this.anio = anio;
+		this.color = color;
+		this.precioBase = precioBase;
+		this.cantidad = cantidad;
+		this.transmision = "Manual"; // Default o puedes omitirlo si no está en la vista
+	}
+	
 	
 	public int getId() {
 		return id;
@@ -54,6 +72,9 @@ public class coche {
 	
 	public void mostrarInfo() {
 		
+	}
+	public Object getCantidad() {
+		return cantidad;
 	}
 
 }
