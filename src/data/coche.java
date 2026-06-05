@@ -5,16 +5,16 @@ public class coche implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private int id;
-	private String marca;
-	private String modelo;
-	private int anio;
-	private String transmision;
-	private String color;
-	private float precioBase;
-	private int cantidad;
+	protected int id;
+	protected String marca;
+	protected String modelo;
+	protected int anio;
+	protected String transmision;
+	protected String color;
+	protected float precioBase;
+	protected int cantidad;
 	
-	//crear constructor
+	// constructor
 	public coche(int id, String marca, String modelo, int anio, String color, float precioBase, int cantidad) {
 		this.id = id;
 		this.marca = marca;
@@ -23,7 +23,7 @@ public class coche implements Serializable{
 		this.color = color;
 		this.precioBase = precioBase;
 		this.cantidad = cantidad;
-		this.transmision = "Manual"; // Default o puedes omitirlo si no está en la vista
+		this.transmision = "Manual"; // Default se puede omitir si no está en la vista
 	}
 	
 	
@@ -70,8 +70,8 @@ public class coche implements Serializable{
 		this.precioBase = precioBase;
 	}
 	
-	public void mostrarInfo() {
-		
+	public String mostrarInfo() {
+		return "ID: "+ id + " | " + marca + " | " + modelo + " | " + " | (" + anio + ") | Color: " + color + " | Precio: $" + precioBase + " | Cantidad: " + cantidad + " | Transmisión: " + transmision;
 	}
 	public Object getCantidad() {
 		return cantidad;
