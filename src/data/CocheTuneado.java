@@ -64,4 +64,52 @@ public class CocheTuneado extends coche {
 		
 		return infoBase + infoTuning;
 	}
+	
+	public String getLlantas() {
+		return llantas;
+	}
+
+	public void setLlantas(String llantas) {
+		this.llantas = llantas;
+	}
+
+	public String getAleron() {
+		return aleron;
+	}
+
+	public void setAleron(String aleron) {
+		this.aleron = aleron;
+	}
+
+	public String getSonido() {
+		return sonido;
+	}
+
+	public void setSonido(String sonido) {
+		this.sonido = sonido;
+	}
+
+	public String getEscape() {
+		return escape;
+	}
+
+	public void setEscape(String escape) {
+		this.escape = escape;
+	}
+
+	public String getAsientos() {
+		return asientos;
+	}
+
+	public void setAsientos(String asientos) {
+		this.asientos = asientos;
+	}
+
+	public String getPintura() {
+		return pintura;
+	}
+
+	public void setPintura(String pintura) {
+		this.pintura = pintura;
+	}
 }
