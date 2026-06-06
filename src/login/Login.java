@@ -21,7 +21,7 @@ import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.JOptionPane; //manejo de ventanas emergentes
 import ventas.VentanaVentas;// Para relacionar el login con la ventana principal
-
+import GestionArchivos.Gestor;
 
 //imports para el manejo de archivos
 import java.io.BufferedReader;
@@ -178,39 +178,8 @@ public class Login extends JFrame {
 				}
 				
 				//ruta archivo.txt
-				String rutaArchivo = "usuarios.txt";
-				boolean accesoConfirm = false;
-				String linea;
-				
-				try (BufferedReader br=new BufferedReader(new FileReader(rutaArchivo))){
-					while((linea=br.readLine()) != null ) {
-						
-						
-						if (linea.trim().isEmpty()) continue;
-						
-						String[] datos = linea.split(",");
-						
-						
-						
-						
-						
-						if(datos.length == 3) {
-							String userTxt = datos[0].trim();
-							String passTxt = datos[1].trim();
-							String emailTxt = datos[2].trim();
-							if(userTxt.equals(usuarioUser) && passTxt.equals(usuarioPassword) && emailTxt.equals(usuarioEmail)) {
-								accesoConfirm=true;
-								break;
-							}
-							
-						}
-						
-						
-					}
-					
-				}catch(IOException ex) {
-					JOptionPane.showMessageDialog(null, "Error al abrir el archivo de usuarios: " + ex.getMessage());
-				}
+				Gestor archivos= new Gestor();
+				boolean accesoConfirm = archivos.accesoUsuarios(usuarioUser, usuarioPassword, usuarioEmail);
 				
 				if(accesoConfirm) {
 					JOptionPane.showMessageDialog(null, "Bienvenido");
