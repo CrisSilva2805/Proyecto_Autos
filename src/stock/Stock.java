@@ -465,15 +465,17 @@ public class Stock extends JFrame {
 		ArrayList<coche>lista=leerCochesDelArchivo();
 		
 		for(coche c:lista) {
-			modeloTabla.addRow(new Object[]{
-				c.getId(),
-				c.getMarca(),
-				c.getModelo(),
-				c.getAnio(),
-				c.getColor(),
-				"$"+String.format("%.2f", c.getPrecioBase()),
-				c.getCantidad()
-			});
+			if ((int) c.getCantidad() > 0) {
+				modeloTabla.addRow(new Object[]{
+					c.getId(),
+					c.getMarca(),
+					c.getModelo(),
+					c.getAnio(),
+					c.getColor(),
+					"$"+String.format("%.2f", c.getPrecioBase()),
+					c.getCantidad()
+				});
+			}
 			
 		}
 				

@@ -403,15 +403,17 @@ public class RegistroVentas extends JFrame {
 		listaCochesDisponibles = gestorArchivos.leerStock();
 		
 		for (data.coche c : listaCochesDisponibles) {
-			modeloTabla.addRow(new Object[] {
-					c.getId(),
-					c.getMarca(),
-					c.getModelo(),
-					c.getAnio(),
-					c.getColor(),
-					"$" + c.getPrecioBase(),
-					c.getCantidad()
-			});
+			if ((int) c.getCantidad() > 0) {
+				modeloTabla.addRow(new Object[] {
+						c.getId(),
+						c.getMarca(),
+						c.getModelo(),
+						c.getAnio(),
+						c.getColor(),
+						"$" + c.getPrecioBase(),
+						c.getCantidad()
+				});
+			}
 		}
 	}
 }
