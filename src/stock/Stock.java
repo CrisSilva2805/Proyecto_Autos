@@ -53,7 +53,7 @@ public class Stock extends JFrame {
 	private JTextField txtCantidad;
 	
 	//RUTA ARCHIVO BINARIO
-	private final String ARCHIVO_DAT = "stock.dat";
+	private final String ARCHIVO_DAT = "src/stock.dat";
 
 	/**
 	 * Launch the application.

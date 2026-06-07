@@ -1,5 +1,10 @@
 package GestionArchivos;
 
+import data.coche;
+import data.Venta;
+
+import java.io.*;
+import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -44,6 +49,44 @@ public class Gestor {
 			}
 			return accesoConfirm;
 		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<coche> leerStock() {
+		ArrayList<coche> lista = new ArrayList<>();
+		File f = new File("src/stock.dat");
+		if (!f.exists()) return lista;
+		
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f))) {
+			lista = (ArrayList<coche>) ois.readObject();
+		} catch (Exception ex) {
+			System.out.println("Error al leer el stock: " + ex.getMessage());
+		}
+		
+		return lista;
+	}
+	
+	public boolean actualizarStock(ArrayList<coche> listaActualizada) {
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/stock.dat"))) {
+			oos.writeObject(listaActualizada);
+			return true;
+		} catch (Exception ex) {
+			System.out.println("Error al actualizar stock: " + ex.getMessage());
+			return false;
+		}
+	}
+	
+	public boolean registrarVenta(Venta nuevaVenta) {
+		try (FileWriter fw = new FileWriter("src/GestionArchivos/ventas.txt", true);
+				BufferedWriter bw = new BufferedWriter(fw);
+				PrintWriter out = new PrintWriter(bw)) {
+			
+			out.println(nuevaVenta.generarRegistroTxt());
+			return true;
+		} catch (IOException e) {
+			System.out.println("Error al registrar venta: " + e.getMessage());
+			return false;
+		}
 	}
 
 }

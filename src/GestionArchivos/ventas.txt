@@ -1,0 +1,2 @@
+VEN-6286,06/06/2026 21:47:14,Diego Delgado,diego@gmail.com,4493447275,1,BYD,U9,2026,Manual,30000.0
+VEN-6913,06/06/2026 22:16:04,Diego Delgado,diego@gmail.com,4493447275,1,BYD,U9,2026,Manual,30000.0

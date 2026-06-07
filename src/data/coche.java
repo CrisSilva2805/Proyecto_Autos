@@ -69,12 +69,14 @@ public class coche implements Serializable{
 	public void setPrecioBase(float precioBase) {
 		this.precioBase = precioBase;
 	}
+	public Object getCantidad() {
+		return cantidad;
+	}
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
 	
 	public String mostrarInfo() {
 		return "ID: "+ id + " | " + marca + " | " + modelo + " | " + " | (" + anio + ") | Color: " + color + " | Precio: $" + precioBase + " | Cantidad: " + cantidad + " | Transmisión: " + transmision;
 	}
-	public Object getCantidad() {
-		return cantidad;
-	}
-
 }

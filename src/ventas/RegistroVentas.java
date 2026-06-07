@@ -1,5 +1,14 @@
 package ventas;
 
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+import java.util.ArrayList;
+
+import data.coche;
+import data.Cliente;
+import data.Venta;
+import GestionArchivos.Gestor;
+
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -32,11 +41,16 @@ public class RegistroVentas extends JFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	
+	private DefaultTableModel modeloTabla;
+	private ArrayList<coche> listaCochesDisponibles;
+	private coche autoSeleccionadoParaVender = null;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -173,12 +187,12 @@ public class RegistroVentas extends JFrame {
 		});
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(324, 70, 500, 430);
+		panel_1.setBounds(453, 70, 371, 430);
 		contentPane.add(panel_1);
 		panel_1.setBackground(new Color(255, 255, 255));
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(10, 70, 300, 430);
+		panel_2.setBounds(10, 70, 433, 430);
 		contentPane.add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -188,16 +202,17 @@ public class RegistroVentas extends JFrame {
 		panel_2.add(lblNewLabel);
 		
 		txtBuscarAuto = new JTextField();
-		txtBuscarAuto.setBounds(0, 31, 196, 20);
+		txtBuscarAuto.setBounds(0, 31, 261, 20);
 		panel_2.add(txtBuscarAuto);
 		txtBuscarAuto.setColumns(10);
 		
-		JButton btnNewButton = new JButton("Buscar");
-		btnNewButton.setBounds(206, 30, 84, 23);
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setIcon(new ImageIcon(RegistroVentas.class.getResource("/com/images/lupa.jpg")));
+		btnNewButton.setBounds(271, 28, 22, 23);
 		panel_2.add(btnNewButton);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 62, 290, 368);
+		scrollPane.setBounds(0, 62, 433, 368);
 		panel_2.add(scrollPane);
 		
 		catalogoVentas = new JTable();
@@ -304,6 +319,99 @@ public class RegistroVentas extends JFrame {
 		contentPane.add(lblNewLabel_3_1);
 		
 		*/
-
+		
+		// TABLA Y CARGA DE DATOS
+		String[] columnas = {"ID", "Marca", "Modelo", "Año", "Color", "Precio", "Stock"};
+		modeloTabla = new DefaultTableModel(columnas, 0) {
+			@Override
+			public boolean isCellEditable(int row, int column) { return false; }
+		};
+		catalogoVentas.setModel(modeloTabla);
+		
+		actualizarTabla();
+		
+		// Evento del click en la tabla
+		catalogoVentas.addMouseListener(new MouseAdapter( ) {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int fila = catalogoVentas.getSelectedRow();
+				if (fila != -1) {
+					autoSeleccionadoParaVender = listaCochesDisponibles.get(fila);
+					
+					txtAutoSeleccionado.setText(autoSeleccionadoParaVender.getMarca() + " " + autoSeleccionadoParaVender.getModelo());
+					txtPrecioTotal.setText(String.valueOf(autoSeleccionadoParaVender.getPrecioBase()));
+				}
+			}
+		});
+		
+		// Confirmar la venta
+		btnConfirmarVenta.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				if (autoSeleccionadoParaVender == null) {
+					JOptionPane.showMessageDialog(null, "Por favor, seleccione un auto.");
+					return;
+				}
+				
+				int cantidadActual = (int) autoSeleccionadoParaVender.getCantidad();
+				if (cantidadActual <= 0) {
+					JOptionPane.showMessageDialog(null, "El vehículo no se encuentra en el stock disponible.");
+					return;
+				}
+				
+				String nom = txtNombre.getText().trim();
+				String ape = textField.getText().trim();
+				String tel = textField_1.getText().trim();
+				String cor = textField_2.getText().trim();
+				
+				if (nom.isEmpty() || ape.isEmpty() || tel.isEmpty() || cor.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Debe llenar todos los datos del comprador.");
+					return;
+				}
+				
+				Cliente comprador = new Cliente(nom, ape, tel, cor);
+				
+				String idVenta = "VEN-" + (int)(Math.random() * 9000 + 1000);
+				Venta nuevaVenta = new Venta(idVenta, comprador, autoSeleccionadoParaVender);
+				
+				Gestor gestorArchivos = new Gestor();
+				
+				gestorArchivos.registrarVenta(nuevaVenta);
+				
+				autoSeleccionadoParaVender.setCantidad(cantidadActual - 1);
+				gestorArchivos.actualizarStock(listaCochesDisponibles);
+				
+				JOptionPane.showMessageDialog(null, "Venta procesada con éxito \n Ticket: " + idVenta);
+				
+				txtNombre.setText("");
+				textField.setText("");
+				textField_1.setText("");
+				textField_2.setText("");
+				txtAutoSeleccionado.setText("");
+				txtPrecioTotal.setText("");
+				autoSeleccionadoParaVender = null;
+				
+				actualizarTabla();
+			}
+		});
+		
+	}
+	
+	private void actualizarTabla() {
+		modeloTabla.setRowCount(0);
+		
+		GestionArchivos.Gestor gestorArchivos = new GestionArchivos.Gestor();
+		listaCochesDisponibles = gestorArchivos.leerStock();
+		
+		for (data.coche c : listaCochesDisponibles) {
+			modeloTabla.addRow(new Object[] {
+					c.getId(),
+					c.getMarca(),
+					c.getModelo(),
+					c.getAnio(),
+					c.getColor(),
+					"$" + c.getPrecioBase(),
+					c.getCantidad()
+			});
+		}
 	}
 }
