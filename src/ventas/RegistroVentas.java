@@ -336,8 +336,18 @@ public class RegistroVentas extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				int fila = catalogoVentas.getSelectedRow();
 				if (fila != -1) {
-					autoSeleccionadoParaVender = listaCochesDisponibles.get(fila);
+					// Extraemos el ID de la fila seleccionada
+					int idSeleccionado = (int) catalogoVentas.getValueAt(fila, 0);
 					
+					// Buscamos en el ArrayList ese ID
+					for (coche c : listaCochesDisponibles) {
+						if (c.getId() == idSeleccionado) {
+							autoSeleccionadoParaVender = c;
+							break;
+						}
+					}
+					
+					// Se llenan los inputs
 					txtAutoSeleccionado.setText(autoSeleccionadoParaVender.getMarca() + " " + autoSeleccionadoParaVender.getModelo());
 					txtPrecioTotal.setText(String.valueOf(autoSeleccionadoParaVender.getPrecioBase()));
 				}

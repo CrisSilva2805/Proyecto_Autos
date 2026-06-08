@@ -222,13 +222,12 @@ public class VentanaTuning extends JFrame {
 		lblNewLabel_1.setBounds(10, 11, 159, 14);
 		panel_1.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("Costo de las modificaciones:");
+		JLabel lblNewLabel_1_1 = new JLabel("Cantidad a tunear:");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_1_1.setBounds(10, 65, 185, 14);
 		panel_1.add(lblNewLabel_1_1);
 		
 		txtCantidadTuning = new JTextField();
-		txtCantidadTuning.setEditable(false);
 		txtCantidadTuning.setColumns(10);
 		txtCantidadTuning.setBounds(10, 90, 271, 20);
 		panel_1.add(txtCantidadTuning);
@@ -318,12 +317,76 @@ public class VentanaTuning extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				int fila = catalogoVentas.getSelectedRow();
 				if (fila != -1) {
-					autoSeleccionadoParaVender = listaCochesDisponibles.get(fila);
+					// Extraemos el ID de la fila seleccionada
+					int idSeleccionado = (int) catalogoVentas.getValueAt(fila, 0);
 					
+					// Buscamos en el ArrayList ese ID
+					for (coche c : listaCochesDisponibles) {
+						if (c.getId() == idSeleccionado) {
+							autoSeleccionadoParaVender = c;
+							break;
+						}
+					}
+					
+					// Se llenan los inputs
 					txtAutoSeleccionado.setText(autoSeleccionadoParaVender.getMarca() + " " + autoSeleccionadoParaVender.getModelo());
-					txtCantidadTuning.setText(String.valueOf(autoSeleccionadoParaVender.getPrecioBase()));
 				}
 			}
+		});
+		
+		// Lógica de navegación del CardLayout y las opciones del ComboBox
+		CardLayout manejadorTarjetas = (CardLayout) panelTarjetas.getLayout();
+		
+		btnLlantas.addActionListener(e -> {
+			lblTituloOpcion.setText("Seleccione las llantas:");
+			comboOpciones.removeAllItems();
+			comboOpciones.addItem("Llantas Deportivas de Aleación");
+			comboOpciones.addItem("Llantas Off-Road Todo Terreno");
+			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
+		});
+		
+		btnAleron.addActionListener(e -> {
+			lblTituloOpcion.setText("Seleccione el alerón:");
+			comboOpciones.removeAllItems();
+			comboOpciones.addItem("Llantas Deportivas de Aleación");
+			comboOpciones.addItem("Llantas Off-Road Todo Terreno");
+			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
+		});
+		
+		btnSonido.addActionListener(e -> {
+			lblTituloOpcion.setText("Seleccione el sonido:");
+			comboOpciones.removeAllItems();
+			comboOpciones.addItem("Llantas Deportivas de Aleación");
+			comboOpciones.addItem("Llantas Off-Road Todo Terreno");
+			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
+		});
+		
+		btnEscape.addActionListener(e -> {
+			lblTituloOpcion.setText("Seleccione el escape:");
+			comboOpciones.removeAllItems();
+			comboOpciones.addItem("Llantas Deportivas de Aleación");
+			comboOpciones.addItem("Llantas Off-Road Todo Terreno");
+			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
+		});
+		
+		btnAsientos.addActionListener(e -> {
+			lblTituloOpcion.setText("Seleccione los asientos:");
+			comboOpciones.removeAllItems();
+			comboOpciones.addItem("Llantas Deportivas de Aleación");
+			comboOpciones.addItem("Llantas Off-Road Todo Terreno");
+			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
+		});
+		
+		btnPintura.addActionListener(e -> {
+			lblTituloOpcion.setText("Seleccione la pintura:");
+			comboOpciones.removeAllItems();
+			comboOpciones.addItem("Llantas Deportivas de Aleación");
+			comboOpciones.addItem("Llantas Off-Road Todo Terreno");
+			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
+		});
+		
+		btnRegresar.addActionListener(e -> {
+			manejadorTarjetas.show(panelTarjetas, "name_255942830743800");
 		});
 	}
 	
