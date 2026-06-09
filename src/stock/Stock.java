@@ -63,6 +63,7 @@ public class Stock extends JFrame {
 	private JTextField txtCantidad;
 	
 	private Gestor gestorArchivos = new Gestor();
+	private JTextField txtTransmision;
 	
 	
 
@@ -283,7 +284,7 @@ public class Stock extends JFrame {
 		REGISTRAR.setForeground(new Color(255, 255, 255));
 		REGISTRAR.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		REGISTRAR.setBackground(new Color(159, 7, 18));
-		REGISTRAR.setBounds(10, 337, 149, 20);
+		REGISTRAR.setBounds(10, 378, 149, 20);
 		panel_1.add(REGISTRAR);
 		
 		JButton ACTUALIZAR = new JButton("Actualizar");
@@ -291,13 +292,13 @@ public class Stock extends JFrame {
 		ACTUALIZAR.setForeground(Color.WHITE);
 		ACTUALIZAR.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		ACTUALIZAR.setBackground(new Color(0, 0, 0));
-		ACTUALIZAR.setBounds(10, 367, 149, 20);
+		ACTUALIZAR.setBounds(10, 409, 149, 20);
 		panel_1.add(ACTUALIZAR);
 		
 		JButton LIMPIAR = new JButton("Limpiar Campos");
 		
 		LIMPIAR.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		LIMPIAR.setBounds(165, 368, 132, 20);
+		LIMPIAR.setBounds(165, 379, 132, 20);
 		panel_1.add(LIMPIAR);
 		
 		JLabel CANTIDAD = new JLabel("Cantidad:");
@@ -309,6 +310,16 @@ public class Stock extends JFrame {
 		txtCantidad.setColumns(10);
 		txtCantidad.setBounds(76, 298, 65, 18);
 		panel_1.add(txtCantidad);
+		
+		txtTransmision = new JTextField();
+		txtTransmision.setBounds(86, 327, 109, 20);
+		panel_1.add(txtTransmision);
+		txtTransmision.setColumns(10);
+		
+		JLabel lblTransmisin = new JLabel("Transmisión:");
+		lblTransmisin.setFont(new Font("Agency FB", Font.BOLD, 17));
+		lblTransmisin.setBounds(10, 323, 77, 24);
+		panel_1.add(lblTransmisin);
 		
 		// --- PANEL DERECHO (CONSULTA) ---
 		JPanel panel_2 = new JPanel();
@@ -496,11 +507,12 @@ public class Stock extends JFrame {
 			String modelo=txtModelo.getText().trim();
 			int anio=Integer.parseInt(txtAnio.getText().trim());
 			float precio=Float.parseFloat(txtPrecio.getText().trim());
+			String transmision= txtTransmision.getText().trim();
 			String color= txtColor.getText().trim();
 			int cantidad=Integer.parseInt(txtCantidad.getText().trim());
 			
 			//instanciamos coche
-			coche nuevoCoche= new coche(id, marca, modelo, anio, color, precio, cantidad);
+			coche nuevoCoche= new coche(id, marca, modelo, anio, transmision, color, precio, cantidad);
 			
 			//leer archivo
 			ArrayList<coche>listaCoches=gestorArchivos.leerStock();
@@ -586,8 +598,4 @@ public class Stock extends JFrame {
 		txtId.requestFocus();
 		
 	}
-	
-	
-	
-	
 }

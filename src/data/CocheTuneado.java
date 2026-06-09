@@ -13,7 +13,7 @@ public class CocheTuneado extends coche {
 	
 	// Constructor
 	public CocheTuneado(coche autoBase) {
-		super(autoBase.getId(), autoBase.getMarca(), autoBase.getModelo(), autoBase.getAnio(), autoBase.getColor(), autoBase.getPrecioBase(), (int)autoBase.getCantidad());
+		super(autoBase.getId(), autoBase.getMarca(), autoBase.getModelo(), autoBase.getAnio(), autoBase.getTransmision(), autoBase.getColor(), autoBase.getPrecioBase(), (int)autoBase.getCantidad());
 		this.llantas = "De fábrica";
 		this.aleron = "De fábrica";
 		this.sonido = "De fábrica";

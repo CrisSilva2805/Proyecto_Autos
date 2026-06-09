@@ -15,7 +15,7 @@ public class coche implements Serializable{
 	protected int cantidad;
 	
 	// constructor
-	public coche(int id, String marca, String modelo, int anio, String color, float precioBase, int cantidad) {
+	public coche(int id, String marca, String modelo, int anio, String transmision, String color, float precioBase, int cantidad) {
 		this.id = id;
 		this.marca = marca;
 		this.modelo = modelo;
@@ -23,7 +23,7 @@ public class coche implements Serializable{
 		this.color = color;
 		this.precioBase = precioBase;
 		this.cantidad = cantidad;
-		this.transmision = "Manual"; // Default se puede omitir si no está en la vista
+		this.transmision = transmision; // Default se puede omitir si no está en la vista
 	}
 	
 	

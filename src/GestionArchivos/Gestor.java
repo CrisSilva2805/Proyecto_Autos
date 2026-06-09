@@ -1,6 +1,7 @@
 package GestionArchivos;
 
 import data.coche;
+import data.CocheTuneado;
 import data.Venta;
 
 import java.io.*;
@@ -85,6 +86,31 @@ public class Gestor {
 			return true;
 		} catch (IOException e) {
 			System.out.println("Error al registrar venta: " + e.getMessage());
+			return false;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public ArrayList<data.CocheTuneado> leerCochesTuneados() {
+		ArrayList<data.CocheTuneado> lista = new ArrayList<>();
+		
+		File f = new File("src/coches_tuneados.dat");
+		if (!f.exists()) return lista;
+		
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f))) {
+			lista = (ArrayList<data.CocheTuneado>) ois.readObject();
+		} catch (Exception e) { }
+		return lista;
+	}
+	
+	public boolean registrarCocheTuneado(data.CocheTuneado cocheTuneado) {
+		ArrayList<data.CocheTuneado> listaActual = leerCochesTuneados();
+		listaActual.add(cocheTuneado);
+		
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/coches_tuneados.dat"))) {
+			oos.writeObject(listaActual);
+			return true;
+		} catch (Exception e) {
 			return false;
 		}
 	}

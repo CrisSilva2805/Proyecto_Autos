@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -37,6 +38,10 @@ public class VentanaTuning extends JFrame {
 	private coche autoSeleccionadoParaVender = null;
 	private JTextField txtAutoSeleccionado;
 	private JTextField txtCantidadTuning;
+	
+	private String modificacionActual = "";
+	private String selLlantas = "De serie", selAleron = "De serie", selSonido = "De serie";
+	private String selEscape = "De serie", selAsientos = "De serie", selPintura = "De serie";
 
 	/**
 	 * Launch the application.
@@ -340,53 +345,151 @@ public class VentanaTuning extends JFrame {
 		btnLlantas.addActionListener(e -> {
 			lblTituloOpcion.setText("Seleccione las llantas:");
 			comboOpciones.removeAllItems();
+			comboOpciones.addItem("De serie");
 			comboOpciones.addItem("Llantas Deportivas de Aleación");
 			comboOpciones.addItem("Llantas Off-Road Todo Terreno");
 			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
+			modificacionActual = "Llantas";
 		});
 		
 		btnAleron.addActionListener(e -> {
 			lblTituloOpcion.setText("Seleccione el alerón:");
 			comboOpciones.removeAllItems();
-			comboOpciones.addItem("Llantas Deportivas de Aleación");
-			comboOpciones.addItem("Llantas Off-Road Todo Terreno");
+			comboOpciones.addItem("De serie");
+			comboOpciones.addItem("Alerón Deportivo de Fibra de Carbono");
+			comboOpciones.addItem("Alerón CLásico Discreto");
 			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
+			modificacionActual = "Aleron";
 		});
 		
 		btnSonido.addActionListener(e -> {
 			lblTituloOpcion.setText("Seleccione el sonido:");
 			comboOpciones.removeAllItems();
-			comboOpciones.addItem("Llantas Deportivas de Aleación");
-			comboOpciones.addItem("Llantas Off-Road Todo Terreno");
+			comboOpciones.addItem("De serie");
+			comboOpciones.addItem("Sistema Premium Bose (8 Bocinas)");
+			comboOpciones.addItem("Subwoofer con Amplificador Pioneer");
 			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
+			modificacionActual = "Sonido";
 		});
 		
 		btnEscape.addActionListener(e -> {
 			lblTituloOpcion.setText("Seleccione el escape:");
 			comboOpciones.removeAllItems();
-			comboOpciones.addItem("Llantas Deportivas de Aleación");
-			comboOpciones.addItem("Llantas Off-Road Todo Terreno");
+			comboOpciones.addItem("De serie");
+			comboOpciones.addItem("Escape Deportivo Acero Inoxidable");
+			comboOpciones.addItem("Escape de Titanio Alto Rendimiento");
 			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
+			modificacionActual = "Escape";
 		});
 		
 		btnAsientos.addActionListener(e -> {
 			lblTituloOpcion.setText("Seleccione los asientos:");
 			comboOpciones.removeAllItems();
-			comboOpciones.addItem("Llantas Deportivas de Aleación");
-			comboOpciones.addItem("Llantas Off-Road Todo Terreno");
+			comboOpciones.addItem("De serie");
+			comboOpciones.addItem("Asientos de Cuero Premium");
+			comboOpciones.addItem("Asientos Deportivos tipo Cubo");
 			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
+			modificacionActual = "Asientos";
 		});
 		
 		btnPintura.addActionListener(e -> {
 			lblTituloOpcion.setText("Seleccione la pintura:");
 			comboOpciones.removeAllItems();
-			comboOpciones.addItem("Llantas Deportivas de Aleación");
-			comboOpciones.addItem("Llantas Off-Road Todo Terreno");
+			comboOpciones.addItem("De serie");
+			comboOpciones.addItem("Pintura Metálica Brillante");
+			comboOpciones.addItem("Pintura Mate");
 			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
+			modificacionActual = "Pintura";
 		});
 		
 		btnRegresar.addActionListener(e -> {
+			String eleccion = comboOpciones.getSelectedItem().toString();
+			switch (modificacionActual) {
+			case "Llantas": selLlantas = eleccion; break;
+			case "Aleron": selAleron = eleccion; break;
+			case "Sonido": selSonido = eleccion; break;
+			case "Escape": selEscape = eleccion; break;
+			case "Asientos": selAsientos = eleccion; break;
+			case "Pintura": selPintura = eleccion; break;
+			}
+			
 			manejadorTarjetas.show(panelTarjetas, "name_255942830743800");
+		});
+		
+		btnConfirmarTuning.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				if (autoSeleccionadoParaVender == null) {
+					JOptionPane.showMessageDialog(null, "Error: Selecciona un auto de los disponibles.");
+					return;
+				}
+				
+				int cantidadATunear = 0;
+				try {
+					cantidadATunear = Integer.parseInt(txtCantidadTuning.getText().trim());
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(null, "Error: Ingresa una cantidad válida.");
+					return;
+				}
+				
+				int stockOriginal = (int) autoSeleccionadoParaVender.getCantidad();
+				
+				if (cantidadATunear <= 0) {
+					JOptionPane.showMessageDialog(null, "La cantidad debe ser mayor a 0.");
+					return;
+				}
+				if (cantidadATunear > stockOriginal) {
+					JOptionPane.showMessageDialog(null, "No puedes tunear más autos de los que hay en el registro.");
+					return;
+				}
+				
+				float costoExtra = 0;
+				
+				if (selLlantas.equals("Llantas Deportivas de Aleación")) costoExtra += 12000;
+				else if (selLlantas.equals("Llantas Off-Road Todo Terreno")) costoExtra += 18000;
+				
+				if (selAleron.equals("Alerón Deportivo de Fibra de Carbono")) costoExtra += 8500;
+				else if (selAleron.equals("Alerón CLásico Discreto")) costoExtra += 3000;
+				
+				if (selSonido.equals("Sistema Premium Bose (8 Bocinas)")) costoExtra += 25000;
+				else if (selSonido.equals("Subwoofer con Amplificador Pioneer")) costoExtra += 15000;
+				
+				if (selEscape.equals("Escape Deportivo Acero Inoxidable")) costoExtra += 11000;
+				else if (selEscape.equals("Escape de Titanio Alto Rendimiento")) costoExtra += 22000;
+				
+				if (selAsientos.equals("Asientos de Cuero Premium")) costoExtra += 20000;
+				else if (selAsientos.equals("Asientos Deportivos tipo Cubo")) costoExtra += 28000;
+				
+				if (selPintura.equals("Pintura Metálica Brillante")) costoExtra += 15000;
+				else if (selPintura.equals("Pintura Mate")) costoExtra += 19000;
+				
+				data.CocheTuneado nuevoTuning = new data.CocheTuneado(autoSeleccionadoParaVender);
+				nuevoTuning.setCantidad(cantidadATunear);
+				
+				nuevoTuning.setPrecioBase(autoSeleccionadoParaVender.getPrecioBase() + costoExtra);
+				
+				nuevoTuning.setLlantas(selLlantas);
+				nuevoTuning.setAleron(selAleron);
+				nuevoTuning.setSonido(selSonido);
+				nuevoTuning.setEscape(selEscape);
+				nuevoTuning.setAsientos(selAsientos);
+				nuevoTuning.setPintura(selPintura);
+				
+				GestionArchivos.Gestor gestor = new GestionArchivos.Gestor();
+				gestor.registrarCocheTuneado(nuevoTuning);
+				
+				autoSeleccionadoParaVender.setCantidad(stockOriginal - cantidadATunear);
+				gestor.actualizarStock(listaCochesDisponibles);
+				
+				JOptionPane.showMessageDialog(null, "Tuning realizado con éxito!");
+				
+				txtAutoSeleccionado.setText("");
+				txtCantidadTuning.setText("");
+				autoSeleccionadoParaVender = null;
+				selLlantas = "De serie"; selAleron = "De serie"; selSonido = "De serie";
+				selEscape = "De serie"; selAsientos = "De serie"; selPintura = "De serie";
+				
+				actualizarTabla();
+			}
 		});
 	}
 	
