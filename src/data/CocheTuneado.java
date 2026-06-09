@@ -112,4 +112,7 @@ public class CocheTuneado extends coche {
 	public void setPintura(String pintura) {
 		this.pintura = pintura;
 	}
+	public String enviarTReporte() {
+		return  enviarReporte() + "\n Llantas:" + llantas + "\t Aleron:" + aleron + "\t Sonido:" + sonido + "\n Escape:" + escape + "\t Asientos:" + asientos + "\t Pintura:" + pintura ;
+	}
 }

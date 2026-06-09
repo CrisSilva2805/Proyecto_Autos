@@ -79,4 +79,9 @@ public class coche implements Serializable{
 	public String mostrarInfo() {
 		return "ID: "+ id + " | " + marca + " | " + modelo + " | " + " | (" + anio + ") | Color: " + color + " | Precio: $" + precioBase + " | Cantidad: " + cantidad + " | Transmisión: " + transmision;
 	}
+	
+	public String enviarReporte() {
+		return "---------------------------------------------- \n"+ id + "\t" + marca + " \t" + modelo + "\n " + " | (" + anio + ") \t Color: " + color + " \t | Precio: $" + precioBase + " | \n Cantidad: " + cantidad + "\t | Transmisión: " + transmision; 
+				
+	}
 }

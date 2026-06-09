@@ -168,7 +168,14 @@ public class Gestor {
 		try(FileWriter fw = new FileWriter("src/GestionArchivos/ReporteStock.txt",true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				PrintWriter out = new PrintWriter(bw)){
-			
+			out.println ("Autos Normales ");
+			for(coche auxCoche : listaNormal){
+				out.println(auxCoche.enviarReporte());
+			}
+			out.println(" \n Coches Tuneados:");
+			for(CocheTuneado auxTuneado : listaTuneado) {
+				out.println(auxTuneado.enviarTReporte());
+			}
 			
 		}
 		catch(IOException e){
