@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 import tuning.VentanaTuning;
 import stock.Stock;
 import ventas.RegistroVentas;
+import consultas.ventanaConsultas;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -93,6 +94,12 @@ public class VentanaVentas extends JFrame {
 				CONSULTAS.setBackground(panel.getBackground()); 
 		        // Si prefieres que vuelva a ser transparente por completo: HOME.setOpaque(false);
 		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ventanaConsultas VentanaConsultas = new ventanaConsultas();
+				VentanaConsultas.setVisible(true);
+				dispose();
+			}
 		});
 		
 		

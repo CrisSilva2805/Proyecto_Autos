@@ -8,6 +8,7 @@ import data.coche;
 import data.Cliente;
 import data.Venta;
 import GestionArchivos.Gestor;
+import consultas.ventanaConsultas;
 
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -18,6 +19,7 @@ import java.awt.event.MouseEvent;
 import tuning.VentanaTuning;
 import ventas.VentanaVentas;
 import stock.Stock;
+import consultas.ventanaConsultas;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -140,6 +142,12 @@ public class RegistroVentas extends JFrame {
 				CONSULTAS.setBackground(panel.getBackground()); 
 		        // Si prefieres que vuelva a ser transparente por completo: HOME.setOpaque(false);
 		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ventanaConsultas VentanaConsultas = new ventanaConsultas();
+				VentanaConsultas.setVisible(true);
+				dispose();
+			}
 		});
 		
 		
