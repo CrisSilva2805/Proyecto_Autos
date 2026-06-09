@@ -22,6 +22,8 @@ import javax.swing.table.DefaultTableModel;
 
 import data.coche;
 import ventas.RegistroVentas;
+import ventas.VentanaVentas;
+
 import javax.swing.JSeparator;
 import java.awt.CardLayout;
 import javax.swing.JComboBox;
@@ -42,6 +44,8 @@ public class VentanaTuning extends JFrame {
 	private String modificacionActual = "";
 	private String selLlantas = "De serie", selAleron = "De serie", selSonido = "De serie";
 	private String selEscape = "De serie", selAsientos = "De serie", selPintura = "De serie";
+	
+	private boolean mostrandoTuneados = false;
 
 	/**
 	 * Launch the application.
@@ -95,6 +99,12 @@ public class VentanaTuning extends JFrame {
 				HOME.setBackground(panel.getBackground()); 
 		        // Si prefieres que vuelva a ser transparente por completo: HOME.setOpaque(false);
 		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VentanaVentas ventanaVentas = new VentanaVentas();
+				ventanaVentas.setVisible(true);
+				dispose();
+			}
 		});
 		
 		
@@ -155,7 +165,6 @@ public class VentanaTuning extends JFrame {
 		VENTAS.setFont(new Font("Agency FB", Font.PLAIN, 20));
 		VENTAS.setBounds(300, 0, 100, 58);
 		panel.add(VENTAS);
-		
 		VENTAS.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -164,11 +173,15 @@ public class VentanaTuning extends JFrame {
 			}
 			
 			@Override
-		    public void mouseExited(MouseEvent e) {
-		        // Al salir, vuelve a poner el fondo del mismo color que el panel (o hazlo transparente de nuevo)
+			public void mouseExited(MouseEvent e) {
 				VENTAS.setBackground(panel.getBackground()); 
-		        // Si prefieres que vuelva a ser transparente por completo: HOME.setOpaque(false);
-		    }
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VentanaVentas ventanaVentas = new VentanaVentas();
+				ventanaVentas.setVisible(true);
+				dispose();
+			}
 		});
 		
 		
@@ -179,8 +192,6 @@ public class VentanaTuning extends JFrame {
 		TOUNING.setFont(new Font("Agency FB", Font.PLAIN, 20));
 		TOUNING.setBounds(400, 0, 100, 58);
 		panel.add(TOUNING);
-		
-		
 		TOUNING.setOpaque(true);
 		TOUNING.setBackground(new Color(158, 23, 20));
 		
@@ -195,7 +206,7 @@ public class VentanaTuning extends JFrame {
 		panel_2.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("VEHÍCULOS DISPONIBLES PARA TUNING");
-		lblNewLabel.setBounds(76, 11, 315, 14);
+		lblNewLabel.setBounds(0, 11, 315, 14);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
 		panel_2.add(lblNewLabel);
 		
@@ -206,7 +217,7 @@ public class VentanaTuning extends JFrame {
 		
 		JButton btnNewButton = new JButton("");
 		btnNewButton.setIcon(new ImageIcon(RegistroVentas.class.getResource("/com/images/lupa.jpg")));
-		btnNewButton.setBounds(271, 28, 22, 23);
+		btnNewButton.setBounds(261, 28, 22, 23);
 		panel_2.add(btnNewButton);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -316,6 +327,26 @@ public class VentanaTuning extends JFrame {
 		};
 		catalogoVentas.setModel(modeloTabla);
 		
+		JButton btnCochesBase = new JButton("Coches");
+		btnCochesBase.setForeground(Color.WHITE);
+		btnCochesBase.setBackground(new Color(159, 7, 18));
+		btnCochesBase.setBounds(291, 0, 142, 23);
+		panel_2.add(btnCochesBase);
+		btnCochesBase.addActionListener(e -> {
+			mostrandoTuneados = false;
+			actualizarTabla();
+		});
+		
+		JButton btnCochesTuneados = new JButton("Coches Tuneados");
+		btnCochesTuneados.setForeground(Color.WHITE);
+		btnCochesTuneados.setBackground(new Color(159, 7, 18));
+		btnCochesTuneados.setBounds(291, 30, 142, 23);
+		panel_2.add(btnCochesTuneados);
+		btnCochesTuneados.addActionListener(e -> {
+			mostrandoTuneados = true;
+			actualizarTabla();
+		});
+		
 		actualizarTabla();
 		
 		// Evento del click en la tabla
@@ -337,6 +368,19 @@ public class VentanaTuning extends JFrame {
 					
 					// Se llenan los inputs
 					txtAutoSeleccionado.setText(autoSeleccionadoParaVender.getMarca() + " " + autoSeleccionadoParaVender.getModelo());
+					
+					if (autoSeleccionadoParaVender instanceof data.CocheTuneado) {
+						data.CocheTuneado autoYaTuneado = (data.CocheTuneado) autoSeleccionadoParaVender;
+						selLlantas = autoYaTuneado.getLlantas();
+						selAleron = autoYaTuneado.getAleron();
+						selSonido = autoYaTuneado.getSonido();
+						selEscape = autoYaTuneado.getEscape();
+						selAsientos = autoYaTuneado.getAsientos();
+						selPintura = autoYaTuneado.getPintura();
+					} else {
+						selLlantas = "De serie"; selAleron = "De serie"; selSonido = "De serie";
+						selEscape = "De serie"; selAsientos = "De serie"; selPintura = "De serie";
+					}
 				}
 			}
 		});
@@ -350,6 +394,7 @@ public class VentanaTuning extends JFrame {
 			comboOpciones.addItem("De serie");
 			comboOpciones.addItem("Llantas Deportivas de Aleación");
 			comboOpciones.addItem("Llantas Off-Road Todo Terreno");
+			comboOpciones.setSelectedItem(selLlantas);
 			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
 			modificacionActual = "Llantas";
 		});
@@ -360,6 +405,7 @@ public class VentanaTuning extends JFrame {
 			comboOpciones.addItem("De serie");
 			comboOpciones.addItem("Alerón Deportivo de Fibra de Carbono");
 			comboOpciones.addItem("Alerón CLásico Discreto");
+			comboOpciones.setSelectedItem(selAleron);
 			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
 			modificacionActual = "Aleron";
 		});
@@ -370,6 +416,7 @@ public class VentanaTuning extends JFrame {
 			comboOpciones.addItem("De serie");
 			comboOpciones.addItem("Sistema Premium Bose (8 Bocinas)");
 			comboOpciones.addItem("Subwoofer con Amplificador Pioneer");
+			comboOpciones.setSelectedItem(selSonido);
 			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
 			modificacionActual = "Sonido";
 		});
@@ -380,6 +427,7 @@ public class VentanaTuning extends JFrame {
 			comboOpciones.addItem("De serie");
 			comboOpciones.addItem("Escape Deportivo Acero Inoxidable");
 			comboOpciones.addItem("Escape de Titanio Alto Rendimiento");
+			comboOpciones.setSelectedItem(selEscape);
 			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
 			modificacionActual = "Escape";
 		});
@@ -390,6 +438,7 @@ public class VentanaTuning extends JFrame {
 			comboOpciones.addItem("De serie");
 			comboOpciones.addItem("Asientos de Cuero Premium");
 			comboOpciones.addItem("Asientos Deportivos tipo Cubo");
+			comboOpciones.setSelectedItem(selAsientos);
 			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
 			modificacionActual = "Asientos";
 		});
@@ -400,6 +449,7 @@ public class VentanaTuning extends JFrame {
 			comboOpciones.addItem("De serie");
 			comboOpciones.addItem("Pintura Metálica Brillante");
 			comboOpciones.addItem("Pintura Mate");
+			comboOpciones.setSelectedItem(selPintura);
 			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
 			modificacionActual = "Pintura";
 		});
@@ -444,29 +494,53 @@ public class VentanaTuning extends JFrame {
 					return;
 				}
 				
+				String llantasViejas = "De serie", aleronViejo = "De serie", sonidoViejo = "De serie";
+				String escapeViejo = "De serie", asientosViejos = "De serie", pinturaVieja = "De serie";
+				
+				if (autoSeleccionadoParaVender instanceof data.CocheTuneado) {
+					data.CocheTuneado viejo = (data.CocheTuneado) autoSeleccionadoParaVender;
+					llantasViejas = viejo.getLlantas();
+					aleronViejo = viejo.getAleron();
+					sonidoViejo = viejo.getSonido();
+					escapeViejo = viejo.getEscape();
+					asientosViejos = viejo.getAsientos();
+					pinturaVieja = viejo.getPintura();
+				}
+				
 				float costoExtra = 0;
 				
-				if (selLlantas.equals("Llantas Deportivas de Aleación")) costoExtra += 12000;
-				else if (selLlantas.equals("Llantas Off-Road Todo Terreno")) costoExtra += 18000;
+				if (!selLlantas.equals(llantasViejas)) {
+					if (selLlantas.equals("Llantas Deportivas de Aleación")) costoExtra += 12000;
+					else if (selLlantas.equals("Llantas Off-Road Todo Terreno")) costoExtra += 18000;
+				}
 				
-				if (selAleron.equals("Alerón Deportivo de Fibra de Carbono")) costoExtra += 8500;
-				else if (selAleron.equals("Alerón CLásico Discreto")) costoExtra += 3000;
+				if (!selAleron.equals(aleronViejo)) {
+					if (selAleron.equals("Alerón Deportivo de Fibra de Carbono")) costoExtra += 8500;
+					else if (selAleron.equals("Alerón Clásico Discreto")) costoExtra += 3000;
+				}
 				
-				if (selSonido.equals("Sistema Premium Bose (8 Bocinas)")) costoExtra += 25000;
-				else if (selSonido.equals("Subwoofer con Amplificador Pioneer")) costoExtra += 15000;
+				if (!selSonido.equals(sonidoViejo)) {
+					if (selSonido.equals("Sistema Premium Bose (8 Bocinas)")) costoExtra += 25000;
+					else if (selSonido.equals("Subwoofer con Amplificador Pioneer")) costoExtra += 15000;
+				}
 				
-				if (selEscape.equals("Escape Deportivo Acero Inoxidable")) costoExtra += 11000;
-				else if (selEscape.equals("Escape de Titanio Alto Rendimiento")) costoExtra += 22000;
+				if (!selEscape.equals(escapeViejo)) {
+					if (selEscape.equals("Escape Deportivo Acero Inoxidable")) costoExtra += 11000;
+					else if (selEscape.equals("Escape de Titanio Alto Rendimiento")) costoExtra += 22000;
+				}
 				
-				if (selAsientos.equals("Asientos de Cuero Premium")) costoExtra += 20000;
-				else if (selAsientos.equals("Asientos Deportivos tipo Cubo")) costoExtra += 28000;
+				if (!selAsientos.equals(asientosViejos)) {
+					if (selAsientos.equals("Asientos de Cuero Premium")) costoExtra += 20000;
+					else if (selAsientos.equals("Asientos Deportivos tipo Cubo")) costoExtra += 28000;
+				}
 				
-				if (selPintura.equals("Pintura Metálica Brillante")) costoExtra += 15000;
-				else if (selPintura.equals("Pintura Mate")) costoExtra += 19000;
+				if (!selPintura.equals(pinturaVieja)) {
+					if (selPintura.equals("Pintura Metálica Brillante")) costoExtra += 15000;
+					else if (selPintura.equals("Pintura Mate")) costoExtra += 19000;
+				}
 				
 				data.CocheTuneado nuevoTuning = new data.CocheTuneado(autoSeleccionadoParaVender);
 				nuevoTuning.setCantidad(cantidadATunear);
-				
 				nuevoTuning.setPrecioBase(autoSeleccionadoParaVender.getPrecioBase() + costoExtra);
 				
 				nuevoTuning.setLlantas(selLlantas);
@@ -477,12 +551,21 @@ public class VentanaTuning extends JFrame {
 				nuevoTuning.setPintura(selPintura);
 				
 				GestionArchivos.Gestor gestor = new GestionArchivos.Gestor();
-				gestor.registrarCocheTuneado(nuevoTuning);
-				
 				autoSeleccionadoParaVender.setCantidad(stockOriginal - cantidadATunear);
-				gestor.actualizarStock(listaCochesDisponibles);
 				
-				JOptionPane.showMessageDialog(null, "Tuning realizado con éxito!");
+				if (mostrandoTuneados) {
+					ArrayList<data.CocheTuneado> listaTuneadosParaGuardar = new ArrayList<>();
+					for(data.coche c : listaCochesDisponibles) {
+						listaTuneadosParaGuardar.add((data.CocheTuneado) c);
+					}
+					listaTuneadosParaGuardar.add(nuevoTuning);
+					gestor.actualizarStockTuneados(listaTuneadosParaGuardar);
+				} else {
+					gestor.registrarCocheTuneado(nuevoTuning);
+					gestor.actualizarStock(listaCochesDisponibles);
+				}
+				
+				JOptionPane.showMessageDialog(null, "¡Tuning realizado con éxito!");
 				
 				txtAutoSeleccionado.setText("");
 				txtCantidadTuning.setText("");
@@ -499,7 +582,13 @@ public class VentanaTuning extends JFrame {
 		modeloTabla.setRowCount(0);
 		
 		GestionArchivos.Gestor gestorArchivos = new GestionArchivos.Gestor();
-		listaCochesDisponibles = gestorArchivos.leerStock();
+		
+		if (mostrandoTuneados) {
+			ArrayList<data.CocheTuneado> tuneados = gestorArchivos.leerCochesTuneados();
+			listaCochesDisponibles = new ArrayList<data.coche>(tuneados);
+		} else {
+			listaCochesDisponibles = gestorArchivos.leerStock();
+		}
 		
 		for (data.coche c : listaCochesDisponibles) {
 			if ((int) c.getCantidad() > 0) {

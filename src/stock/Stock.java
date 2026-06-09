@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import data.coche;
 
 import GestionArchivos.Gestor;
-import login.Login;
 import tuning.VentanaTuning;
 import ventas.VentanaVentas;
+import ventas.RegistroVentas;
 
 
 import javax.swing.BorderFactory;
@@ -119,8 +119,9 @@ public class Stock extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Login ventanaLogin = new Login();
-				ventanaLogin.setVisible(true);
+				
+				VentanaVentas ventanaVentas = new VentanaVentas();
+				ventanaVentas.setVisible(true);
 				dispose();
 			}
 		});
@@ -172,7 +173,7 @@ public class Stock extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaVentas ventanaVentas = new VentanaVentas();
+				RegistroVentas ventanaVentas = new RegistroVentas();
 				ventanaVentas.setVisible(true);
 				dispose();
 			}

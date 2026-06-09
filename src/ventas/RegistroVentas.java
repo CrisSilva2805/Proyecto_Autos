@@ -15,6 +15,10 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import tuning.VentanaTuning;
+import ventas.VentanaVentas;
+import stock.Stock;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,6 +32,8 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JSeparator;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class RegistroVentas extends JFrame {
 
@@ -45,6 +51,8 @@ public class RegistroVentas extends JFrame {
 	private DefaultTableModel modeloTabla;
 	private ArrayList<coche> listaCochesDisponibles;
 	private coche autoSeleccionadoParaVender = null;
+	
+	private boolean mostrandoTuneados = false;
 
 	/**
 	 * Launch the application.
@@ -99,6 +107,12 @@ public class RegistroVentas extends JFrame {
 				HOME.setBackground(panel.getBackground()); 
 		        // Si prefieres que vuelva a ser transparente por completo: HOME.setOpaque(false);
 		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VentanaVentas ventanaVentas = new VentanaVentas();
+				ventanaVentas.setVisible(true);
+				dispose();
+			}
 		});
 		
 		
@@ -148,6 +162,12 @@ public class RegistroVentas extends JFrame {
 				STOCK.setBackground(panel.getBackground()); 
 		        // Si prefieres que vuelva a ser transparente por completo: HOME.setOpaque(false);
 		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Stock ventanaStock = new Stock();
+				ventanaStock.setVisible(true);
+				dispose();
+			}
 		});
 		
 		
@@ -184,6 +204,12 @@ public class RegistroVentas extends JFrame {
 				TOUNING.setBackground(panel.getBackground()); 
 		        // Si prefieres que vuelva a ser transparente por completo: HOME.setOpaque(false);
 		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VentanaTuning ventanaTuning = new VentanaTuning();
+				ventanaTuning.setVisible(true);
+				dispose();
+			}
 		});
 		
 		JPanel panel_1 = new JPanel();
@@ -208,7 +234,7 @@ public class RegistroVentas extends JFrame {
 		
 		JButton btnNewButton = new JButton("");
 		btnNewButton.setIcon(new ImageIcon(RegistroVentas.class.getResource("/com/images/lupa.jpg")));
-		btnNewButton.setBounds(271, 28, 22, 23);
+		btnNewButton.setBounds(260, 31, 22, 23);
 		panel_2.add(btnNewButton);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -328,6 +354,26 @@ public class RegistroVentas extends JFrame {
 		};
 		catalogoVentas.setModel(modeloTabla);
 		
+		JButton btnCochesBase = new JButton("Coches");
+		btnCochesBase.setForeground(new Color(255, 255, 255));
+		btnCochesBase.setBackground(new Color(159, 7, 18));
+		btnCochesBase.setBounds(291, 0, 142, 23);
+		panel_2.add(btnCochesBase);
+		btnCochesBase.addActionListener(e -> {
+			mostrandoTuneados = false;
+			actualizarTabla();
+		});
+		
+		JButton btnCochesTuneados = new JButton("Coches Tuneados");
+		btnCochesTuneados.setForeground(Color.WHITE);
+		btnCochesTuneados.setBackground(new Color(159, 7, 18));
+		btnCochesTuneados.setBounds(291, 30, 142, 23);
+		panel_2.add(btnCochesTuneados);
+		btnCochesTuneados.addActionListener(e -> {
+			mostrandoTuneados = true;
+			actualizarTabla();
+		});
+		
 		actualizarTabla();
 		
 		// Evento del click en la tabla
@@ -388,7 +434,16 @@ public class RegistroVentas extends JFrame {
 				gestorArchivos.registrarVenta(nuevaVenta);
 				
 				autoSeleccionadoParaVender.setCantidad(cantidadActual - 1);
-				gestorArchivos.actualizarStock(listaCochesDisponibles);
+				
+				if (mostrandoTuneados) {
+					ArrayList<data.CocheTuneado> listaTuneadosParaGuardar = new ArrayList<>();
+					for (data.coche c : listaCochesDisponibles) {
+						listaTuneadosParaGuardar.add((data.CocheTuneado) c);
+					}
+					gestorArchivos.actualizarStockTuneados(listaTuneadosParaGuardar);
+				} else {
+					gestorArchivos.actualizarStock(listaCochesDisponibles);
+				}
 				
 				JOptionPane.showMessageDialog(null, "Venta procesada con éxito \n Ticket: " + idVenta);
 				
@@ -410,7 +465,13 @@ public class RegistroVentas extends JFrame {
 		modeloTabla.setRowCount(0);
 		
 		GestionArchivos.Gestor gestorArchivos = new GestionArchivos.Gestor();
-		listaCochesDisponibles = gestorArchivos.leerStock();
+		
+		if (mostrandoTuneados) {
+			ArrayList<data.CocheTuneado> tuneados = gestorArchivos.leerCochesTuneados();
+			listaCochesDisponibles = new ArrayList<data.coche>(tuneados);
+		} else {
+			listaCochesDisponibles = gestorArchivos.leerStock();
+		}
 		
 		for (data.coche c : listaCochesDisponibles) {
 			if ((int) c.getCantidad() > 0) {
