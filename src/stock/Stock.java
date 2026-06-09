@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import data.coche;
 
 import GestionArchivos.Gestor;
+import consultas.ventanaConsultas;
 import tuning.VentanaTuning;
 import ventas.VentanaVentas;
 import ventas.RegistroVentas;
@@ -142,6 +143,12 @@ public class Stock extends JFrame {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				CONSULTAS.setBackground(panel.getBackground()); 
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ventanaConsultas VentanaConsultas = new ventanaConsultas();
+				VentanaConsultas.setVisible(true);
+				dispose();
 			}
 		});
 		

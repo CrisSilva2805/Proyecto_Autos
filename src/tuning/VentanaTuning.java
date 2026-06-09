@@ -1,6 +1,7 @@
 package tuning;
 
 import java.awt.Color;
+
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
@@ -20,7 +21,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import consultas.ventanaConsultas;
 import data.coche;
+import stock.Stock;
 import ventas.RegistroVentas;
 import ventas.VentanaVentas;
 
@@ -132,6 +135,12 @@ public class VentanaTuning extends JFrame {
 				CONSULTAS.setBackground(panel.getBackground()); 
 		        // Si prefieres que vuelva a ser transparente por completo: HOME.setOpaque(false);
 		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ventanaConsultas VentanaConsultas = new ventanaConsultas();
+				VentanaConsultas.setVisible(true);
+				dispose();
+			}
 		});
 		
 		
@@ -154,6 +163,12 @@ public class VentanaTuning extends JFrame {
 				STOCK.setBackground(panel.getBackground()); 
 		        // Si prefieres que vuelva a ser transparente por completo: HOME.setOpaque(false);
 		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Stock ventanaStock = new Stock();
+				ventanaStock.setVisible(true);
+				dispose();
+			}
 		});
 		
 		
@@ -178,7 +193,7 @@ public class VentanaTuning extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaVentas ventanaVentas = new VentanaVentas();
+				RegistroVentas ventanaVentas = new RegistroVentas();
 				ventanaVentas.setVisible(true);
 				dispose();
 			}
