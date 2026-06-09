@@ -114,5 +114,15 @@ public class Gestor {
 			return false;
 		}
 	}
+	
+	public boolean actualizarStockTuneados(ArrayList<data.CocheTuneado> listaActualizada) {
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/coches_tuneados.dat"))) {
+			oos.writeObject(listaActualizada);
+			return true;
+		} catch (Exception ex) {
+			System.out.println("Error al actualizar stock tuneado: " + ex.getMessage());
+			return false;
+		}
+	}
 
 }

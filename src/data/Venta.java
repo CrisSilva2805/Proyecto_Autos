@@ -22,7 +22,7 @@ public class Venta {
 	}
 	
 	public String generarRegistroTxt() {
-		return idVenta + "," +
+		String ticket = idVenta + "," +
 			fechaHora + "," +
 			comprador.getNombreCompleto() + "," +
 			comprador.getCorreo() + "," +
@@ -33,5 +33,18 @@ public class Venta {
 			autoVendido.getAnio() + "," +
 			autoVendido.getTransmision() + "," +
 			total;
+		
+		if (this.autoVendido instanceof data.CocheTuneado) {
+			data.CocheTuneado autoTuneado = (data.CocheTuneado) this.autoVendido;
+			
+			ticket += "Llantas: " + autoTuneado.getLlantas() + "," +
+					"Aleron: " + autoTuneado.getAleron() + "," +
+					"Sonido: " + autoTuneado.getSonido() + "," +
+					"Escape: " + autoTuneado.getEscape() + "," +
+					"Asientos: " + autoTuneado.getAsientos() + "," +
+					"Pintura: " + autoTuneado.getPintura() + ",";
+		}
+		
+		return ticket;
 	}
 }
