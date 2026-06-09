@@ -99,6 +99,12 @@ public class VentanaTuning extends JFrame {
 				HOME.setBackground(panel.getBackground()); 
 		        // Si prefieres que vuelva a ser transparente por completo: HOME.setOpaque(false);
 		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VentanaVentas ventanaVentas = new VentanaVentas();
+				ventanaVentas.setVisible(true);
+				dispose();
+			}
 		});
 		
 		

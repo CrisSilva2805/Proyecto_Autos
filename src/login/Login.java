@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -23,10 +24,7 @@ import javax.swing.JOptionPane; //manejo de ventanas emergentes
 import ventas.VentanaVentas;// Para relacionar el login con la ventana principal
 import GestionArchivos.Gestor;
 
-//imports para el manejo de archivos
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+
 public class Login extends JFrame {
 
 	private static final long serialVersionUID = 1L;

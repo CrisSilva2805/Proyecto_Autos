@@ -3,9 +3,15 @@ package ventas;
 import java.awt.EventQueue;
 
 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import tuning.VentanaTuning;
+import stock.Stock;
+import ventas.RegistroVentas;
+
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -109,6 +115,12 @@ public class VentanaVentas extends JFrame {
 				STOCK.setBackground(panel.getBackground()); 
 		        // Si prefieres que vuelva a ser transparente por completo: HOME.setOpaque(false);
 		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Stock ventanaStock = new Stock();
+				ventanaStock.setVisible(true);
+				dispose();
+			}
 		});
 		
 		
@@ -133,6 +145,13 @@ public class VentanaVentas extends JFrame {
 				VENTAS.setBackground(panel.getBackground()); 
 		        // Si prefieres que vuelva a ser transparente por completo: HOME.setOpaque(false);
 		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				RegistroVentas ventanaVentas = new RegistroVentas();
+				ventanaVentas.setVisible(true);
+				dispose();
+				
+			}
 		});
 		
 		
@@ -180,6 +199,12 @@ public class VentanaVentas extends JFrame {
 				TOUNING.setBackground(panel.getBackground()); 
 		        // Si prefieres que vuelva a ser transparente por completo: HOME.setOpaque(false);
 		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VentanaTuning ventanaTuning = new VentanaTuning();
+				ventanaTuning.setVisible(true);
+				dispose();
+			}
 		});
 
 	}

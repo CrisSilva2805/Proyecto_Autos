@@ -15,6 +15,10 @@ import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import tuning.VentanaTuning;
+import ventas.VentanaVentas;
+import stock.Stock;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -103,6 +107,12 @@ public class RegistroVentas extends JFrame {
 				HOME.setBackground(panel.getBackground()); 
 		        // Si prefieres que vuelva a ser transparente por completo: HOME.setOpaque(false);
 		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VentanaVentas ventanaVentas = new VentanaVentas();
+				ventanaVentas.setVisible(true);
+				dispose();
+			}
 		});
 		
 		
@@ -152,6 +162,12 @@ public class RegistroVentas extends JFrame {
 				STOCK.setBackground(panel.getBackground()); 
 		        // Si prefieres que vuelva a ser transparente por completo: HOME.setOpaque(false);
 		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Stock ventanaStock = new Stock();
+				ventanaStock.setVisible(true);
+				dispose();
+			}
 		});
 		
 		
@@ -188,6 +204,12 @@ public class RegistroVentas extends JFrame {
 				TOUNING.setBackground(panel.getBackground()); 
 		        // Si prefieres que vuelva a ser transparente por completo: HOME.setOpaque(false);
 		    }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VentanaTuning ventanaTuning = new VentanaTuning();
+				ventanaTuning.setVisible(true);
+				dispose();
+			}
 		});
 		
 		JPanel panel_1 = new JPanel();
