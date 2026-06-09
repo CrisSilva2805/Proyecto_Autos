@@ -6,9 +6,6 @@ import data.Venta;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
@@ -29,10 +26,7 @@ public class Gestor {
 				
 					String[] datos = linea.split(",");
 				
-				
-				
-				
-				
+								
 					if(datos.length == 3) {
 						String userTxt = datos[0].trim();
 						String passTxt = datos[1].trim();
@@ -87,6 +81,56 @@ public class Gestor {
 		} catch (IOException e) {
 			System.out.println("Error al registrar venta: " + e.getMessage());
 			return false;
+		}
+	}
+	
+	public void leerVentas() {
+		String rutaArch = "src/GestionArchivos/ventas.txt";
+		String linea;
+		try(BufferedReader br = new BufferedReader(new FileReader(rutaArch))){
+			while((linea=br.readLine()) !=null) {
+				if(linea.trim().isEmpty())continue;
+				
+				String[] datos = linea.split(",");
+				
+				String ID= datos[0];
+				String fecha= datos[1];
+				String nombre = datos[2];
+				String correo = datos [3];
+				String numero = datos[4];
+				String cantidad = datos [5];
+				String marcaAuto = datos[6];
+				String detalles =" ";
+				
+				int i=7;
+				while((datos[i].isEmpty())||(datos[i].equals(" "))) {
+					detalles = datos[i];
+					i++;
+				}
+				
+				
+				
+				try (FileWriter fw = new FileWriter("src/GestionArchivos/ReporteVentas.txt",true);
+						BufferedWriter bw = new BufferedWriter(fw);
+						PrintWriter out =new PrintWriter(bw)) {
+							out.println ("-----------------------------------------------------------------------");
+							out.print(ID); out.print("\t"); out.println(fecha);
+							out.print(nombre); out.print("\t");out.println(correo);
+							out.println(numero);
+							out.print(cantidad); out.print("\t"); out.println(marcaAuto);
+							out.print(detalles);
+							
+						}
+				catch (IOException e) {
+					JOptionPane.showMessageDialog(null,"Error al generar reporte:" + e.getMessage());
+				}
+			}
+			
+		
+		} 
+		catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Error al abrir el archivo:" + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
