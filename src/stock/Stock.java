@@ -3,6 +3,7 @@ package stock;
 
 
 import java.awt.Color;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -11,9 +12,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 //manejo de archivos
-import java.io.*;
+
 import java.util.ArrayList;
 import data.coche;
+
+import GestionArchivos.Gestor;
+import login.Login;
+import tuning.VentanaTuning;
+import ventas.VentanaVentas;
 
 
 import javax.swing.BorderFactory;
@@ -34,6 +40,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Stock extends JFrame {
 
@@ -52,8 +62,9 @@ public class Stock extends JFrame {
 	private DefaultTableModel modeloTabla;
 	private JTextField txtCantidad;
 	
-	//RUTA ARCHIVO BINARIO
-	private final String ARCHIVO_DAT = "src/stock.dat";
+	private Gestor gestorArchivos = new Gestor();
+	
+	
 
 	/**
 	 * Launch the application.
@@ -105,6 +116,12 @@ public class Stock extends JFrame {
 			public void mouseExited(MouseEvent e) {
 				HOME.setBackground(panel.getBackground()); 
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Login ventanaLogin = new Login();
+				ventanaLogin.setVisible(true);
+				dispose();
+			}
 		});
 		
 		JLabel CONSULTAS = new JLabel("CONSULTAS");
@@ -152,6 +169,12 @@ public class Stock extends JFrame {
 			public void mouseExited(MouseEvent e) {
 				VENTAS.setBackground(panel.getBackground()); 
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VentanaVentas ventanaVentas = new VentanaVentas();
+				ventanaVentas.setVisible(true);
+				dispose();
+			}
 		});
 		
 		JLabel TOUNING = new JLabel("TOUNING");
@@ -170,6 +193,12 @@ public class Stock extends JFrame {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				TOUNING.setBackground(panel.getBackground()); 
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				VentanaTuning ventanaTuning = new VentanaTuning();
+				ventanaTuning.setVisible(true);
+				dispose();
 			}
 		});
 		
@@ -295,6 +324,38 @@ public class Stock extends JFrame {
 		panel_2.add(lblConsultaDeStock);
 		
 		txtBuscarPorModelomarca = new JTextField();
+		
+		txtBuscarPorModelomarca.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(txtBuscarPorModelomarca.getText().equals("Buscar por Modelo/Marca")) {
+					txtBuscarPorModelomarca.setText("");
+					txtBuscarPorModelomarca.setForeground(Color.BLACK);
+				}
+			}
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(txtBuscarPorModelomarca.getText().isEmpty()) {
+					txtBuscarPorModelomarca.setForeground(new Color(190, 190, 190));
+					txtBuscarPorModelomarca.setText("Buscar por Modelo/Marca");
+					cargarDatosDesdeArchivo();
+				}
+			}
+		});
+		
+		txtBuscarPorModelomarca.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				String texto= txtBuscarPorModelomarca.getText();
+				if(!texto.equals("Buscar por Modelo/Marca")&& !texto.trim().isEmpty()) {
+					buscarAutomovil(texto);
+				}else if(texto.trim().isEmpty()) {
+					cargarDatosDesdeArchivo();
+				}
+				
+			}
+		});
+		
 		txtBuscarPorModelomarca.setFont(new Font("Tahoma", Font.BOLD, 10));
 		txtBuscarPorModelomarca.setForeground(new Color(190, 190, 190));
 		txtBuscarPorModelomarca.setText("Buscar por Modelo/Marca");
@@ -303,6 +364,14 @@ public class Stock extends JFrame {
 		txtBuscarPorModelomarca.setColumns(10);
 		
 		JButton btnNewButton_2 = new JButton("");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String texto = txtBuscarPorModelomarca.getText();
+				if(!texto.equals("Buscar por Modelo/Marca") && !texto.trim().isEmpty()) {
+					buscarAutomovil(texto);
+				}
+			}
+		});
 		btnNewButton_2.setIcon(new ImageIcon(Stock.class.getResource("/com/images/lupa.jpg")));
 		btnNewButton_2.setBounds(63, 68, 20, 20);
 		panel_2.add(btnNewButton_2);
@@ -434,26 +503,24 @@ public class Stock extends JFrame {
 			coche nuevoCoche= new coche(id, marca, modelo, anio, color, precio, cantidad);
 			
 			//leer archivo
-			ArrayList<coche>listaCoches=leerCochesDelArchivo();
+			ArrayList<coche>listaCoches=gestorArchivos.leerStock();
 			listaCoches.add(nuevoCoche);
 			
-			ObjectOutputStream oos= new ObjectOutputStream(new FileOutputStream(ARCHIVO_DAT));
-			oos.writeObject(listaCoches);
-			oos.close();
+			boolean guardadoExitoso = gestorArchivos.actualizarStock(listaCoches);
 			
-			JOptionPane.showMessageDialog(null, "Auto registrado con exito en el archivo" );
+			if(guardadoExitoso) {
+				JOptionPane.showMessageDialog(null, "Auto registrado con exito");
+				limpiarCajasTexto();
+				cargarDatosDesdeArchivo();
+			}else {
+				JOptionPane.showMessageDialog(null, "Error al guardar");
+			}
 			
-			//limpiar campos
-			limpiarCajasTexto();
-			cargarDatosDesdeArchivo();
 			
 			
 			
 		}catch(NumberFormatException ex) {
 			JOptionPane.showMessageDialog(null, "Asegurate de ingresar numeros validos en ID, Año, Precio y Cantidad");
-		}catch(IOException ex) {
-			ex.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Error al escribir en el archivo binario");
 		}
 	}
 	
@@ -462,7 +529,9 @@ public class Stock extends JFrame {
 	private void cargarDatosDesdeArchivo() {
 		modeloTabla.setRowCount(0);//borra el contenido de la tabla
 		
-		ArrayList<coche>lista=leerCochesDelArchivo();
+		ArrayList<coche> lista = gestorArchivos.leerStock();
+		
+		
 		
 		for(coche c:lista) {
 			if ((int) c.getCantidad() > 0) {
@@ -481,25 +550,29 @@ public class Stock extends JFrame {
 				
 	}
 	
-	//Abre el archivo stock.dat y extrae el ArrayList de objetos tipo coche
-	
-	@SuppressWarnings("unchecked") 
-	private ArrayList<coche>leerCochesDelArchivo(){
-		ArrayList<coche>lista=new ArrayList<>();
-		File f= new File(ARCHIVO_DAT);
+	private void buscarAutomovil(String terminoBuscado ) {
+		modeloTabla.setRowCount(0);
 		
-		if(!f.exists()) {
-			return lista;
-		}
+		ArrayList<coche>listaCompleta=gestorArchivos.leerStock();
+		String filtro= terminoBuscado.toLowerCase();
 		
-		try(ObjectInputStream ois= new ObjectInputStream(new FileInputStream(f))){
-			lista=(ArrayList<coche>) ois.readObject();
-		}catch(Exception ex) {
-			
+		for(coche c: listaCompleta) {
+			if(c.getMarca().toLowerCase().contains(filtro) || c.getModelo().toLowerCase().contains(filtro)) {
+				if((int) c.getCantidad()>0) {
+					modeloTabla.addRow(new Object[]{
+							c.getId(),
+							c.getMarca(),
+							c.getModelo(),
+							c.getAnio(),
+							c.getColor(),
+							"$"+String.format("%.2f", c.getPrecioBase()),
+							c.getCantidad()
+					});
+				}
+			}
 		}
-		return lista;
-			
 	}
+	
 	
 	
 	private void limpiarCajasTexto() {
