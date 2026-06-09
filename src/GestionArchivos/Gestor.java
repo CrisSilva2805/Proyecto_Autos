@@ -158,5 +158,23 @@ public class Gestor {
 			return false;
 		}
 	}
+	
+	public void makeReporteStock() {
+		ArrayList<CocheTuneado> listaTuneado = new ArrayList<>();
+		ArrayList<coche> listaNormal = new ArrayList<>();
+		listaTuneado = leerCochesTuneados();
+		listaNormal = leerStock();
+		
+		try(FileWriter fw = new FileWriter("src/GestionArchivos/ReporteStock.txt",true);
+				BufferedWriter bw = new BufferedWriter(fw);
+				PrintWriter out = new PrintWriter(bw)){
+			
+			
+		}
+		catch(IOException e){
+			JOptionPane.showMessageDialog(null, "Error al abrir el archivo:" + e.getMessage());
+			e.printStackTrace();
+		}
+	}
 
 }
