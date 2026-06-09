@@ -155,9 +155,21 @@ public class VentanaTuning extends JFrame {
 		VENTAS.setFont(new Font("Agency FB", Font.PLAIN, 20));
 		VENTAS.setBounds(300, 0, 100, 58);
 		panel.add(VENTAS);
-		VENTAS.setOpaque(true);
-		VENTAS.setBackground(new Color(158, 23, 20));
 		
+		VENTAS.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				VENTAS.setOpaque(true);
+				VENTAS.setBackground(new Color(158, 23, 20));
+			}
+			
+			@Override
+		    public void mouseExited(MouseEvent e) {
+		        // Al salir, vuelve a poner el fondo del mismo color que el panel (o hazlo transparente de nuevo)
+				VENTAS.setBackground(panel.getBackground()); 
+		        // Si prefieres que vuelva a ser transparente por completo: HOME.setOpaque(false);
+		    }
+		});
 		
 		
 		
@@ -167,20 +179,10 @@ public class VentanaTuning extends JFrame {
 		TOUNING.setFont(new Font("Agency FB", Font.PLAIN, 20));
 		TOUNING.setBounds(400, 0, 100, 58);
 		panel.add(TOUNING);
-		TOUNING.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				TOUNING.setOpaque(true);
-				TOUNING.setBackground(new Color(158, 23, 20));
-			}
-			
-			@Override
-		    public void mouseExited(MouseEvent e) {
-		        // Al salir, vuelve a poner el fondo del mismo color que el panel (o hazlo transparente de nuevo)
-				TOUNING.setBackground(panel.getBackground()); 
-		        // Si prefieres que vuelva a ser transparente por completo: HOME.setOpaque(false);
-		    }
-		});
+		
+		
+		TOUNING.setOpaque(true);
+		TOUNING.setBackground(new Color(158, 23, 20));
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(453, 70, 371, 430);
