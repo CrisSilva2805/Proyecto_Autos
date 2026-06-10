@@ -176,6 +176,8 @@ public class ventanaConsultas extends JFrame {
 		JButton btnReportStock = new JButton("GENERAR");
 		btnReportStock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Gestor reporte = new Gestor();
+				reporte.makeReporteStock();
 			}
 		});
 		btnReportStock.setBounds(286, 287, 89, 23);
