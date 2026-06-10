@@ -5,11 +5,31 @@
 1	Toyota 	Prius
   | (2022) 	 Color: red 	 | Precio: $180000.0 | 
  Cantidad: 0	 | Transmisión: Automática
+---------------------------------------------- 
+50	Toyota 	Corolla
+  | (2012) 	 Color: blue 	 | Precio: $95000.0 | 
+ Cantidad: 2	 | Transmisión: manual
+---------------------------------------------- 
+51	Honda 	Civic
+  | (2018) 	 Color: Red 	 | Precio: $130000.0 | 
+ Cantidad: 1	 | Transmisión: manual
 
 --- Coches Tuneados ---
 ---------------------------------------------- 
 1	Toyota 	Prius
   | (2022) 	 Color: red 	 | Precio: $223000.0 | 
- Cantidad: 1	 | Transmisión: Automática
+ Cantidad: 0	 | Transmisión: Automática
  Llantas:Llantas Off-Road Todo Terreno	 Aleron:De serie	 Sonido:Sistema Premium Bose (8 Bocinas)
+ Escape:De serie	 Asientos:De serie	 Pintura:De serie
+---------------------------------------------- 
+50	Toyota 	Corolla
+  | (2012) 	 Color: blue 	 | Precio: $115000.0 | 
+ Cantidad: 1	 | Transmisión: manual
+ Llantas:De serie	 Aleron:De serie	 Sonido:De serie
+ Escape:De serie	 Asientos:Asientos de Cuero Premium	 Pintura:De serie
+---------------------------------------------- 
+51	Honda 	Civic
+  | (2018) 	 Color: Red 	 | Precio: $155000.0 | 
+ Cantidad: 1	 | Transmisión: manual
+ Llantas:De serie	 Aleron:De serie	 Sonido:Sistema Premium Bose (8 Bocinas)
  Escape:De serie	 Asientos:De serie	 Pintura:De serie

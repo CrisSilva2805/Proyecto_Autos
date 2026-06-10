@@ -448,8 +448,8 @@ public class VentanaTuning extends JFrame {
 			lblTituloOpcion.setText("Seleccione las llantas:");
 			comboOpciones.removeAllItems();
 			comboOpciones.addItem("De serie");
-			comboOpciones.addItem("Llantas Deportivas de Aleación");
-			comboOpciones.addItem("Llantas Off-Road Todo Terreno");
+			comboOpciones.addItem("Llantas Deportivas de Aleación (+12,000)");
+			comboOpciones.addItem("Llantas Off-Road Todo Terreno (+18,000)");
 			comboOpciones.setSelectedItem(selLlantas);
 			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
 			modificacionActual = "Llantas";
@@ -459,8 +459,8 @@ public class VentanaTuning extends JFrame {
 			lblTituloOpcion.setText("Seleccione el alerón:");
 			comboOpciones.removeAllItems();
 			comboOpciones.addItem("De serie");
-			comboOpciones.addItem("Alerón Deportivo de Fibra de Carbono");
-			comboOpciones.addItem("Alerón CLásico Discreto");
+			comboOpciones.addItem("Alerón Deportivo de Fibra de Carbono (+8,500)");
+			comboOpciones.addItem("Alerón CLásico Discreto (+3,000)");
 			comboOpciones.setSelectedItem(selAleron);
 			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
 			modificacionActual = "Aleron";
@@ -470,8 +470,8 @@ public class VentanaTuning extends JFrame {
 			lblTituloOpcion.setText("Seleccione el sonido:");
 			comboOpciones.removeAllItems();
 			comboOpciones.addItem("De serie");
-			comboOpciones.addItem("Sistema Premium Bose (8 Bocinas)");
-			comboOpciones.addItem("Subwoofer con Amplificador Pioneer");
+			comboOpciones.addItem("Sistema Premium Bose (8 Bocinas) (+25,000)");
+			comboOpciones.addItem("Subwoofer con Amplificador Pioneer (+15,000)");
 			comboOpciones.setSelectedItem(selSonido);
 			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
 			modificacionActual = "Sonido";
@@ -481,8 +481,8 @@ public class VentanaTuning extends JFrame {
 			lblTituloOpcion.setText("Seleccione el escape:");
 			comboOpciones.removeAllItems();
 			comboOpciones.addItem("De serie");
-			comboOpciones.addItem("Escape Deportivo Acero Inoxidable");
-			comboOpciones.addItem("Escape de Titanio Alto Rendimiento");
+			comboOpciones.addItem("Escape Deportivo Acero Inoxidable (+11,000)");
+			comboOpciones.addItem("Escape de Titanio Alto Rendimiento (+22,000)");
 			comboOpciones.setSelectedItem(selEscape);
 			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
 			modificacionActual = "Escape";
@@ -492,8 +492,8 @@ public class VentanaTuning extends JFrame {
 			lblTituloOpcion.setText("Seleccione los asientos:");
 			comboOpciones.removeAllItems();
 			comboOpciones.addItem("De serie");
-			comboOpciones.addItem("Asientos de Cuero Premium");
-			comboOpciones.addItem("Asientos Deportivos tipo Cubo");
+			comboOpciones.addItem("Asientos de Cuero Premium (+20,000)");
+			comboOpciones.addItem("Asientos Deportivos tipo Cubo (+28,000)");
 			comboOpciones.setSelectedItem(selAsientos);
 			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
 			modificacionActual = "Asientos";
@@ -503,8 +503,8 @@ public class VentanaTuning extends JFrame {
 			lblTituloOpcion.setText("Seleccione la pintura:");
 			comboOpciones.removeAllItems();
 			comboOpciones.addItem("De serie");
-			comboOpciones.addItem("Pintura Metálica Brillante");
-			comboOpciones.addItem("Pintura Mate");
+			comboOpciones.addItem("Pintura Metálica Brillante (+15,000)");
+			comboOpciones.addItem("Pintura Mate (+19,000)");
 			comboOpciones.setSelectedItem(selPintura);
 			manejadorTarjetas.show(panelTarjetas, "name_256337987976900");
 			modificacionActual = "Pintura";
