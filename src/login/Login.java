@@ -181,8 +181,12 @@ public class Login extends JFrame {
 				
 				if(accesoConfirm) {
 					JOptionPane.showMessageDialog(null, "Bienvenido");
+					
+					data.Sesion.usuarioLogeado = usuarioUser;
+					
 					VentanaVentas ventas = new VentanaVentas();
 					ventas.setVisible(true);
+					dispose();
 				}else {
 					JOptionPane.showMessageDialog(null, "Usuario, contraseña o correo incorrectos.");
 				}

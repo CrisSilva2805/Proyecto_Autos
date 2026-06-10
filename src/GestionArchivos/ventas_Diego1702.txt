@@ -1,0 +1,2 @@
+VEN-2086,09/06/2026 18:46:38,Diego Delgado,diego@gmail.com,4493447275,1,Toyota,Prius,2022,Automática,180000.0
+VEN-3046,09/06/2026 19:19:32,diego delgado,diego@gmail.com,4493447275,1,Toyota,Prius,2022,Automática,223000.0Llantas: Llantas Off-Road Todo Terreno,Aleron: De serie,Sonido: Sistema Premium Bose (8 Bocinas),Escape: De serie,Asientos: De serie,Pintura: De serie,

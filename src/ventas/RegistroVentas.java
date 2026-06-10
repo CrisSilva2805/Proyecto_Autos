@@ -237,13 +237,54 @@ public class RegistroVentas extends JFrame {
 		
 		txtBuscarAuto = new JTextField();
 		txtBuscarAuto.setBounds(0, 31, 261, 20);
-		panel_2.add(txtBuscarAuto);
 		txtBuscarAuto.setColumns(10);
+		txtBuscarAuto.setText("Buscar por Modelo/Marca");
+		txtBuscarAuto.setForeground(new Color(190, 190, 190));
+		panel_2.add(txtBuscarAuto);
+		
+		txtBuscarAuto.addFocusListener(new java.awt.event.FocusAdapter() {
+			@Override
+			public void focusGained(java.awt.event.FocusEvent e) {
+				if(txtBuscarAuto.getText().equals("Buscar por Modelo/Marca")) {
+					txtBuscarAuto.setText("");
+					txtBuscarAuto.setForeground(Color.BLACK);
+				}
+			}
+			@Override
+			public void focusLost(java.awt.event.FocusEvent e) {
+				if(txtBuscarAuto.getText().trim().isEmpty()) {
+					txtBuscarAuto.setForeground(new Color(190, 190, 190));
+					txtBuscarAuto.setText("Buscar por Modelo/Marca");
+					actualizarTabla();
+				}
+			}
+		});
+		
+		txtBuscarAuto.addKeyListener(new java.awt.event.KeyAdapter() {
+			@Override
+			public void keyReleased(java.awt.event.KeyEvent e) {
+				String texto = txtBuscarAuto.getText();
+				if(!texto.equals("Buscar por Modelo/Marca") && !texto.trim().isEmpty()) {
+					buscarAutomovil(texto);
+				} else if(texto.trim().isEmpty()) {
+					actualizarTabla();
+				}
+			}
+		});
 		
 		JButton btnNewButton = new JButton("");
 		btnNewButton.setIcon(new ImageIcon(RegistroVentas.class.getResource("/com/images/lupa.jpg")));
-		btnNewButton.setBounds(260, 31, 22, 23);
+		btnNewButton.setBounds(261, 28, 22, 23);
 		panel_2.add(btnNewButton);
+		
+		btnNewButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				String texto = txtBuscarAuto.getText();
+				if(!texto.equals("Buscar por Modelo/Marca") && !texto.trim().isEmpty()) {
+					buscarAutomovil(texto);
+				}
+			}
+		});
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(0, 62, 433, 368);
@@ -492,6 +533,41 @@ public class RegistroVentas extends JFrame {
 						"$" + c.getPrecioBase(),
 						c.getCantidad()
 				});
+			}
+		}
+	}
+	
+	private void buscarAutomovil(String terminoBuscado) {
+		modeloTabla.setRowCount(0);
+		
+		GestionArchivos.Gestor gestorArchivos = new GestionArchivos.Gestor();
+		ArrayList<data.coche> listaCompleta;
+		
+		if (mostrandoTuneados) {
+			ArrayList<data.CocheTuneado> tuneados = gestorArchivos.leerCochesTuneados();
+			listaCompleta = new ArrayList<data.coche>(tuneados);
+		} else {
+			listaCompleta = gestorArchivos.leerStock();
+		}
+		
+		String filtro = terminoBuscado.toLowerCase();
+		
+		listaCochesDisponibles = new ArrayList<>(); 
+		
+		for(data.coche c : listaCompleta) {
+			if(c.getMarca().toLowerCase().contains(filtro) || c.getModelo().toLowerCase().contains(filtro)) {
+				if((int) c.getCantidad() > 0) {
+					listaCochesDisponibles.add(c);
+					modeloTabla.addRow(new Object[]{
+							c.getId(),
+							c.getMarca(),
+							c.getModelo(),
+							c.getAnio(),
+							c.getColor(),
+							"$" + c.getPrecioBase(),
+							c.getCantidad()
+					});
+				}
 			}
 		}
 	}

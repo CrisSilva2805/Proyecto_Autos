@@ -49,7 +49,7 @@ public class Gestor {
 	@SuppressWarnings("unchecked")
 	public ArrayList<coche> leerStock() {
 		ArrayList<coche> lista = new ArrayList<>();
-		File f = new File("src/stock.dat");
+		File f = new File("src/stock_" + data.Sesion.usuarioLogeado +".dat");
 		if (!f.exists()) return lista;
 		
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f))) {
@@ -62,7 +62,7 @@ public class Gestor {
 	}
 	
 	public boolean actualizarStock(ArrayList<coche> listaActualizada) {
-		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/stock.dat"))) {
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/stock_" + data.Sesion.usuarioLogeado + ".dat"))) {
 			oos.writeObject(listaActualizada);
 			return true;
 		} catch (Exception ex) {
@@ -72,7 +72,7 @@ public class Gestor {
 	}
 	
 	public boolean registrarVenta(Venta nuevaVenta) {
-		try (FileWriter fw = new FileWriter("src/GestionArchivos/ventas.txt", true);
+		try (FileWriter fw = new FileWriter("src/GestionArchivos/ventas_" + data.Sesion.usuarioLogeado + ".txt", true);
 				BufferedWriter bw = new BufferedWriter(fw);
 				PrintWriter out = new PrintWriter(bw)) {
 			
@@ -85,51 +85,68 @@ public class Gestor {
 	}
 	
 	public void leerVentas() {
-		String rutaArch = "src/GestionArchivos/ventas.txt";
+		String rutaArch = "src/GestionArchivos/ventas_" + data.Sesion.usuarioLogeado + ".txt";
+		String rutaReporte = "src/GestionArchivos/ReporteVentas_" + data.Sesion.usuarioLogeado + ".txt";
 		String linea;
-		try(BufferedReader br = new BufferedReader(new FileReader(rutaArch))){
-			while((linea=br.readLine()) !=null) {
-				if(linea.trim().isEmpty())continue;
-				
+		
+		java.io.File f = new java.io.File(rutaArch);
+		if(!f.exists()) {
+			JOptionPane.showMessageDialog(null, "No hay ventas registradas para el usuario: " + data.Sesion.usuarioLogeado);
+			return;
+		}
+
+		try (BufferedReader br = new BufferedReader(new FileReader(rutaArch));
+			 FileWriter fw = new FileWriter(rutaReporte, false);
+			 BufferedWriter bw = new BufferedWriter(fw);
+			 PrintWriter out = new PrintWriter(bw)) {
+			
+			out.println("================ REPORTE DE VENTAS - " + data.Sesion.usuarioLogeado.toUpperCase() + " ================");
+
+			while ((linea = br.readLine()) != null) {
+				if (linea.trim().isEmpty()) continue;
+
 				String[] datos = linea.split(",");
-				
-				String ID= datos[0];
-				String fecha= datos[1];
-				String nombre = datos[2];
-				String correo = datos [3];
-				String numero = datos[4];
-				String cantidad = datos [5];
-				String marcaAuto = datos[6];
-				String detalles =" ";
-				
-				int i=7;
-				while((datos[i].isEmpty())||(datos[i].equals(" "))) {
-					detalles = datos[i];
-					i++;
+
+				String ID = datos.length > 0 ? datos[0] : "";
+				String fecha = datos.length > 1 ? datos[1] : "";
+				String nombre = datos.length > 2 ? datos[2] : "";
+				String correo = datos.length > 3 ? datos[3] : "";
+				String numero = datos.length > 4 ? datos[4] : "";
+				String idAuto = datos.length > 5 ? datos[5] : "";
+				String marcaAuto = datos.length > 6 ? datos[6] : "";
+				String modeloAuto = datos.length > 7 ? datos[7] : "";
+				String anioAuto = datos.length > 8 ? datos[8] : "";
+				String transmision = datos.length > 9 ? datos[9] : "";
+				String totalCobrado = datos.length > 10 ? datos[10] : "";
+
+				String detalles = "";
+				if (datos.length > 11) {
+					detalles = "Tuning: ";
+					for (int i = 11; i < datos.length; i++) {
+						detalles += datos[i] + " | ";
+					}
 				}
+
+				out.println("-----------------------------------------------------------------------");
+				out.print("Ticket: " + ID); out.print("\t"); out.println("Fecha: " + fecha);
+				out.print("Cliente: " + nombre); out.print("\t"); out.println("Correo: " + correo);
+				out.println("Tel: " + numero);
+				out.print("Auto ID: " + idAuto); out.print("\t"); out.println(marcaAuto + " " + modeloAuto + " (" + anioAuto + ")");
+				out.println("Transmision: " + transmision + "\t\tTotal Pagado: $" + totalCobrado);
 				
-				
-				
-				try (FileWriter fw = new FileWriter("src/GestionArchivos/ReporteVentas.txt",true);
-						BufferedWriter bw = new BufferedWriter(fw);
-						PrintWriter out =new PrintWriter(bw)) {
-							out.println ("-----------------------------------------------------------------------");
-							out.print(ID); out.print("\t"); out.println(fecha);
-							out.print(nombre); out.print("\t");out.println(correo);
-							out.println(numero);
-							out.print(cantidad); out.print("\t"); out.println(marcaAuto);
-							out.print(detalles);
-							
-						}
-				catch (IOException e) {
-					JOptionPane.showMessageDialog(null,"Error al generar reporte:" + e.getMessage());
+				if (!detalles.isEmpty()) {
+					out.println(detalles);
 				}
 			}
 			
-		
-		} 
-		catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Error al abrir el archivo:" + e.getMessage());
+			try {
+				java.awt.Desktop.getDesktop().open(new java.io.File(rutaReporte));
+			} catch (Exception e) {
+				System.out.println("No se pudo abrir el archivo automáticamente.");
+			}
+
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Error al generar reporte: " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -138,7 +155,7 @@ public class Gestor {
 	public ArrayList<data.CocheTuneado> leerCochesTuneados() {
 		ArrayList<data.CocheTuneado> lista = new ArrayList<>();
 		
-		File f = new File("src/coches_tuneados.dat");
+		File f = new File("src/coches_tuneados_" + data.Sesion.usuarioLogeado + ".dat");
 		if (!f.exists()) return lista;
 		
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(f))) {
@@ -151,7 +168,7 @@ public class Gestor {
 		ArrayList<data.CocheTuneado> listaActual = leerCochesTuneados();
 		listaActual.add(cocheTuneado);
 		
-		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/coches_tuneados.dat"))) {
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/coches_tuneados_" + data.Sesion.usuarioLogeado + ".dat"))) {
 			oos.writeObject(listaActual);
 			return true;
 		} catch (Exception e) {
@@ -165,30 +182,38 @@ public class Gestor {
 		listaTuneado = leerCochesTuneados();
 		listaNormal = leerStock();
 		
-		
-		
-		try(FileWriter fw = new FileWriter("src/GestionArchivos/ReporteStock.txt",true);
-				BufferedWriter bw = new BufferedWriter(fw);
-				PrintWriter out = new PrintWriter(bw)){
+		String rutaReporte = "src/GestionArchivos/ReporteStock_" + data.Sesion.usuarioLogeado + ".txt";
+
+		try (FileWriter fw = new FileWriter(rutaReporte, false);
+			 BufferedWriter bw = new BufferedWriter(fw);
+			 PrintWriter out = new PrintWriter(bw)) {
+
+			out.println("================ REPORTE DE STOCK - " + data.Sesion.usuarioLogeado.toUpperCase() + " ================");
 			
-			out.println ("Autos Normales ");
-			for(coche auxCoche : listaNormal){
+			out.println("\n--- Autos Normales ---");
+			for (coche auxCoche : listaNormal) {
 				out.println(auxCoche.enviarReporte());
 			}
-			out.println(" \n Coches Tuneados:");
-			for(CocheTuneado auxTuneado : listaTuneado) {
+			
+			out.println("\n--- Coches Tuneados ---");
+			for (CocheTuneado auxTuneado : listaTuneado) {
 				out.println(auxTuneado.enviarTReporte());
 			}
 			
-		}
-		catch(IOException e){
-			JOptionPane.showMessageDialog(null, "Error al abrir el archivo:" + e.getMessage());
+			try {
+				java.awt.Desktop.getDesktop().open(new java.io.File(rutaReporte));
+			} catch (Exception e) {
+				System.out.println("No se pudo abrir el archivo automáticamente.");
+			}
+
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Error al abrir el archivo: " + e.getMessage());
 			e.printStackTrace();
 		}
-		}
+	}
 			
 	public boolean actualizarStockTuneados(ArrayList<data.CocheTuneado> listaActualizada) {
-		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/coches_tuneados.dat"))) {
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("src/coches_tuneados_" + data.Sesion.usuarioLogeado + ".dat"))) {
 			oos.writeObject(listaActualizada);
 			return true;
 		} catch (Exception ex) {

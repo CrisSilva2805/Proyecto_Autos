@@ -603,6 +603,7 @@ public class Stock extends JFrame {
 		txtColor.setText("");
 		txtPrecio.setText("");
 		txtCantidad.setText("");
+		txtTransmision.setText("");
 		txtId.requestFocus();
 		
 	}

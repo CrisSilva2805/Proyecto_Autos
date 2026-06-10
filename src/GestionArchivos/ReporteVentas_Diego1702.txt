@@ -1,0 +1,14 @@
+================ REPORTE DE VENTAS - DIEGO1702 ================
+-----------------------------------------------------------------------
+Ticket: VEN-2086	Fecha: 09/06/2026 18:46:38
+Cliente: Diego Delgado	Correo: diego@gmail.com
+Tel: 4493447275
+Auto ID: 1	Toyota Prius (2022)
+Transmision: Automática		Total Pagado: $180000.0
+-----------------------------------------------------------------------
+Ticket: VEN-3046	Fecha: 09/06/2026 19:19:32
+Cliente: diego delgado	Correo: diego@gmail.com
+Tel: 4493447275
+Auto ID: 1	Toyota Prius (2022)
+Transmision: Automática		Total Pagado: $223000.0Llantas: Llantas Off-Road Todo Terreno
+Tuning: Aleron: De serie | Sonido: Sistema Premium Bose (8 Bocinas) | Escape: De serie | Asientos: De serie | Pintura: De serie | 

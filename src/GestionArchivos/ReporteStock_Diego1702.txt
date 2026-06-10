@@ -1,0 +1,15 @@
+================ REPORTE DE STOCK - DIEGO1702 ================
+
+--- Autos Normales ---
+---------------------------------------------- 
+1	Toyota 	Prius
+  | (2022) 	 Color: red 	 | Precio: $180000.0 | 
+ Cantidad: 0	 | Transmisión: Automática
+
+--- Coches Tuneados ---
+---------------------------------------------- 
+1	Toyota 	Prius
+  | (2022) 	 Color: red 	 | Precio: $223000.0 | 
+ Cantidad: 1	 | Transmisión: Automática
+ Llantas:Llantas Off-Road Todo Terreno	 Aleron:De serie	 Sonido:Sistema Premium Bose (8 Bocinas)
+ Escape:De serie	 Asientos:De serie	 Pintura:De serie

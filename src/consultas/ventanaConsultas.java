@@ -15,6 +15,8 @@ import javax.swing.border.EmptyBorder;
 import login.Login;
 import tuning.VentanaTuning;
 import ventas.VentanaVentas;
+import ventas.RegistroVentas;
+import stock.Stock;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -78,8 +80,8 @@ public class ventanaConsultas extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Login ventanaLogin = new Login();
-				ventanaLogin.setVisible(true);
+				VentanaVentas ventanaVentas = new VentanaVentas();
+				ventanaVentas.setVisible(true);
 				dispose();
 			}
 		});
@@ -113,6 +115,13 @@ public class ventanaConsultas extends JFrame {
 			public void mouseExited(MouseEvent e) {
 				STOCK.setBackground(panel.getBackground()); 
 			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Stock ventanaStock = new Stock();
+				ventanaStock.setVisible(true);
+				dispose();
+			}
 		});
 		
 		JLabel VENTAS = new JLabel("VENTAS");
@@ -134,8 +143,8 @@ public class ventanaConsultas extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaVentas ventanaVentas = new VentanaVentas();
-				ventanaVentas.setVisible(true);
+				RegistroVentas registroVentas = new RegistroVentas();
+				registroVentas.setVisible(true);
 				dispose();
 			}
 		});
