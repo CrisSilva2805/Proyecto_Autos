@@ -1,0 +1,35 @@
+Autos Normales 
+---------------------------------------------- 
+1	BYD 	U9
+  | (2026) 	 Color: Gray 	 | Precio: $30000.0 | 
+ Cantidad: 0	 | Transmisión: Manual
+---------------------------------------------- 
+2	Honda 	Civic
+  | (2018) 	 Color: Blue 	 | Precio: $130000.0 | 
+ Cantidad: 2	 | Transmisión: Manual
+---------------------------------------------- 
+3	Toyota 	Corolla
+  | (2010) 	 Color: Red 	 | Precio: $95000.0 | 
+ Cantidad: 0	 | Transmisión: Manual
+---------------------------------------------- 
+1	Toyota 	Prius
+  | (2020) 	 Color: Gray 	 | Precio: $300000.0 | 
+ Cantidad: 3	 | Transmisión: Manual
+---------------------------------------------- 
+4	Chevrolet 	Chevy
+  | (2009) 	 Color: brown 	 | Precio: $60000.0 | 
+ Cantidad: 4	 | Transmisión: manual
+ 
+ Coches Tuneados:
+---------------------------------------------- 
+2	Honda 	Civic
+  | (2018) 	 Color: Blue 	 | Precio: $138500.0 | 
+ Cantidad: 0	 | Transmisión: Manual
+ Llantas:De serie	 Aleron:Alerón Deportivo de Fibra de Carbono	 Sonido:De serie
+ Escape:De serie	 Asientos:De serie	 Pintura:De serie
+---------------------------------------------- 
+3	Toyota 	Corolla
+  | (2010) 	 Color: Red 	 | Precio: $138000.0 | 
+ Cantidad: 1	 | Transmisión: Manual
+ Llantas:Llantas Off-Road Todo Terreno	 Aleron:De serie	 Sonido:Sistema Premium Bose (8 Bocinas)
+ Escape:De serie	 Asientos:De serie	 Pintura:De serie
